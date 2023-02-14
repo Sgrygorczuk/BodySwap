@@ -7,6 +7,7 @@ public class Unit : MonoBehaviour
     public int mana = 100;
     public int physicalDefense = 100;
     public int magicalDefense= 100;
+    public int moneyDrop = 10;
     public Attack[] attacks;
     
     [System.Serializable]
