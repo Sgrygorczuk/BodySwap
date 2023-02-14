@@ -22,19 +22,27 @@ public class BattleScript : MonoBehaviour
     private Unit _playerUnit;
     private TextMeshProUGUI _playerHealthText;
     private TextMeshProUGUI _playerManaText;
+    private TextMeshProUGUI _playerNameText;
     private Image _playerHealthImage;
     private Image _playerManaImage;
-
+    private Image _playerIcon;
+    private GameObject _playerDamageNumberSpawnPoint;
+    
     //========= Enemy Components 
     private Unit _enemyUnit;
     private Image _enemyHealthImage;
-    private Animator _enemyaAnimator;
+    private Image _enemyImage;
+    private GameObject _enemyDamageNumberSpawnPoint;
     
     //========= Menu Components 
     private GameObject[] _baseArrows = new GameObject[3];
     private TextMeshProUGUI[] _baseText = new TextMeshProUGUI[3];
     private GameObject _attackTab;
     private GameObject[] _attackArrows = new GameObject[4];
+    private GameObject _canvas;
+    private GameObject _vitoryTab;
+    private TextMeshProUGUI _defeated;
+    private TextMeshProUGUI _gold;
     
     //======== Controls
     private bool _baseState = true;
@@ -46,7 +54,9 @@ public class BattleScript : MonoBehaviour
     private int _playerCurrentMana;
     private int _enemyCurrentHealth;
     private bool _enemyTurn;
-    
+    private Animator _battleAnimator;
+    [SerializeField] private GameObject damageNumber;
+        
     //======== Consts 
     private const float TIME_BAR_LOWERING = 0.02f;
     private const float TIME_TILL_ENEMY_TURN = 1f;
@@ -64,6 +74,9 @@ public class BattleScript : MonoBehaviour
         SetUpPlayer();
         SetUpEnemy();
         SetUpUI();
+
+        _battleAnimator = GameObject.Find("Canvas").GetComponent<Animator>();
+
     }
 
     //===== Sets Up Player =============================================================================================
@@ -73,17 +86,21 @@ public class BattleScript : MonoBehaviour
         //Grabs the components  
         _playerUnit = GameObject.Find("Canvas").transform.Find("Player_Stats").GetComponent<Unit>();
         //Updated once
-        var playerName = GameObject.Find("Canvas").transform.Find("Player_Stats").transform.Find("Player_Name").GetComponent<TextMeshProUGUI>();
+        _playerNameText = GameObject.Find("Canvas").transform.Find("Player_Stats").transform.Find("Player_Name").GetComponent<TextMeshProUGUI>();
         SetUpPlayerAttacks();
         //Updated through the battle 
         _playerHealthText = GameObject.Find("Canvas").transform.Find("Player_Stats").transform.Find("HP_Bar_BG").transform.Find("HP_Text").GetComponent<TextMeshProUGUI>();
         _playerManaText = GameObject.Find("Canvas").transform.Find("Player_Stats").transform.Find("MP_Bar_BG").transform.Find("MP_Text").GetComponent<TextMeshProUGUI>();
         _playerHealthImage = GameObject.Find("Canvas").transform.Find("Player_Stats").transform.Find("HP_Bar_BG").transform.Find("HP_Bar").GetComponent<Image>();
         _playerManaImage = GameObject.Find("Canvas").transform.Find("Player_Stats").transform.Find("MP_Bar_BG").transform.Find("MP_Bar").GetComponent<Image>();
-        
+        _playerIcon = GameObject.Find("Canvas").transform.Find("Player_Stats").transform.Find("Player_Icon_Mask")
+            .transform.Find("Player_Icon").GetComponent<Image>();
+        _playerDamageNumberSpawnPoint = GameObject.Find("Canvas").transform.Find("Player_Stats").transform.Find("Point").gameObject;
+
         //Pulls and passes on the information to the components 
         //TODO Copy Unit Data from OverWorld to Battle Scene Place Holder 
-        playerName.text = _playerUnit.name;
+        _playerNameText.text = _playerUnit.name;
+        _playerIcon.sprite = _playerUnit.sprite;
         _playerCurrentHealth = _playerUnit.health;
         _playerHealthText.text = _playerCurrentHealth + "/" + _playerUnit.health;
         _playerCurrentMana = _playerUnit.mana;
@@ -129,13 +146,23 @@ public class BattleScript : MonoBehaviour
         //TODO Copy Unit Data from OverWorld to Battle Scene Place Holder 
         _enemyCurrentHealth = _enemyUnit.health;
         _enemyHealthImage = GameObject.Find("Canvas").transform.Find("Enemy").transform.Find("Enemy_Bar_BG").transform.Find("Enemy_Bar").GetComponent<Image>();
-        _enemyaAnimator = GameObject.Find("Canvas").transform.Find("Enemy").GetComponent<Animator>();
+        _enemyImage = GameObject.Find("Canvas").transform.Find("Enemy").transform.Find("Enemy_Sprite")
+            .GetComponent<Image>();
+        _enemyImage.sprite = _enemyUnit.sprite;
+        _enemyDamageNumberSpawnPoint = GameObject.Find("Canvas").transform.Find("Enemy").transform.Find("Point").gameObject;
     }
     
     //===== Sets Up UI =================================================================================================
 
     private void SetUpUI()
     {
+        _canvas = GameObject.Find("Canvas");
+        _vitoryTab = GameObject.Find("Canvas").transform.Find("Victory_Pop_Up").gameObject;
+        _defeated = GameObject.Find("Canvas").transform.Find("Victory_Pop_Up").transform.Find("Defeated")
+            .GetComponent<TextMeshProUGUI>();
+        _gold = GameObject.Find("Canvas").transform.Find("Victory_Pop_Up").transform.Find("Gold")
+            .GetComponent<TextMeshProUGUI>();
+        
         //Connects the Base Point Arrow
         for (int i = 0; i < _baseArrows.Length; i++)
         {
@@ -260,7 +287,7 @@ public class BattleScript : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (_attackIndex <= _maxPlayerAttackIndex && _playerCurrentMana >= _playerUnit.attacks[_attackIndex].manaCost){
+            if (_attackIndex < _maxPlayerAttackIndex && _playerCurrentMana >= _playerUnit.attacks[_attackIndex].manaCost){
                 StartCoroutine(PlayerAttack());
             }
             else
@@ -283,8 +310,8 @@ public class BattleScript : MonoBehaviour
 
     private IEnumerator PlayerAttack()
     {
-        //TODO Spawn A Number showing Damage enemy recived   
-        _enemyaAnimator.Play("EnemyHurt");
+        _battleAnimator.Play("EnemyHurt");
+        SpawnDamage(_enemyDamageNumberSpawnPoint, _playerUnit.attacks[_attackIndex].damage.ToString());
         var time = TIME_BAR_LOWERING * (_playerUnit.attacks[_attackIndex].damage + 1);
         _currentState = BattleStates.EnemyTurn;
         _baseState = true;
@@ -337,6 +364,13 @@ public class BattleScript : MonoBehaviour
             yield return new WaitForSeconds(TIME_BAR_LOWERING);
         }
     }
+
+    private void SpawnDamage(GameObject point, string damage)
+    {
+        var clone = Instantiate(damageNumber, point.transform.position, Quaternion.identity);
+        clone.transform.SetParent(_canvas.transform);
+        clone.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = damage;
+    }
     
     //==================================================================================================================
     //Enemy Actions 
@@ -345,11 +379,11 @@ public class BattleScript : MonoBehaviour
     private IEnumerator EnemyAction()
     {
         var rollAttack = Random.Range(0, _maxEnemyAttackIndex);
-        var time = TIME_BAR_LOWERING * (_enemyUnit.attacks[_attackIndex].damage + 1);
+        var time = TIME_BAR_LOWERING * (_enemyUnit.attacks[rollAttack].damage + 1);
         yield return new WaitForSeconds(TIME_TILL_ENEMY_TURN);
         StartCoroutine(LowerPlayerHealth(rollAttack));
-        //TODO play Player Damage 
-        //TODO spawn Number with Damage 
+        _battleAnimator.Play("Shake");
+        SpawnDamage(_playerDamageNumberSpawnPoint, _enemyUnit.attacks[rollAttack].damage.ToString());
         yield return new WaitForSeconds(time);
         if (_playerCurrentHealth <= 0)
         {
@@ -360,7 +394,7 @@ public class BattleScript : MonoBehaviour
         _currentState = BattleStates.PlayerTurn;
 
     }
-    
+
     private IEnumerator LowerPlayerHealth(int rollAttack)
     {
         var goal = _playerCurrentHealth - _enemyUnit.attacks[rollAttack].damage;
@@ -386,9 +420,9 @@ public class BattleScript : MonoBehaviour
     private IEnumerator WinAction()
     {
         _currentState = BattleStates.Won;
-        _enemyaAnimator.Play("EnemyFade"); 
+        _battleAnimator.Play("EnemyFade"); 
         yield return new WaitForSeconds(TIME_TILL_ENEMY_TURN * 2);
-        //TODO Pop up Win Screen
+        SetUpVictoryScreen();
         yield return new WaitForSeconds(TIME_TILL_ENEMY_TURN);
     }
     
@@ -399,9 +433,42 @@ public class BattleScript : MonoBehaviour
     private IEnumerator LoseAction()
     {
         _currentState = BattleStates.Lost;
-        //TODO Play Ghost Animation 
-        //TODO Pop up 
+        _battleAnimator.Play("Swap");
+        yield return new WaitForSeconds(0.25f);
+        _enemyImage.sprite = _playerUnit.sprite;
+        _playerIcon.sprite = _enemyUnit.sprite;
+        UpdatePlayerData();
+        SwapData();
+        yield return new WaitForSeconds(TIME_TILL_ENEMY_TURN);
+        _battleAnimator.Play("EnemyFade"); 
+        SetUpVictoryScreen();
         yield return new WaitForSeconds(TIME_TILL_ENEMY_TURN);
     }
+
+    private void UpdatePlayerData()
+    {
+        _playerNameText.text = _enemyUnit.name;
+        _playerHealthImage.fillAmount = (float) _enemyCurrentHealth / _enemyUnit.health;
+        _enemyHealthImage.fillAmount = (float) _playerCurrentHealth / _playerUnit.health;
+        _playerManaImage.fillAmount =  (float) _enemyUnit.mana / _enemyUnit.mana;
+        _playerHealthText.text = _enemyCurrentHealth + "/" + _enemyUnit.health;
+        _playerManaText.text =_enemyUnit.mana+ "/" + _enemyUnit.mana;
+
+    }
+    private void SwapData()
+    {
+        //TODO Put data in cross scene script 
+    }
+
+    private void SetUpVictoryScreen()
+    {
+        //TODO use crsoss scene data to input names 
+        _defeated.text = "You have defeated " + _playerUnit.name + " may they rest in peace.";
+        _gold.text = "You gather " +  _playerUnit.moneyDrop + " gold pieces.";
+        _vitoryTab.SetActive(true);
+    }
+
+
+    
 
 }
