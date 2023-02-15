@@ -1,24 +1,35 @@
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+
 public class Unit : MonoBehaviour
 {
     public string name = "";
     public Sprite sprite;
     public int health = 100;
     public int mana = 100;
-    public int physicalDefense = 100;
-    public int magicalDefense= 100;
+    [Range(0,1)] public float physicalDefense = 1;
+    [Range(0,1)] public float magicalDefense= 1;
     public int moneyDrop = 10;
-    public Attack[] attacks;
+    public List<Attacks> attacks = new List<Attacks>();
+    public bool isHuman;
 
-    [System.Serializable]
-    public struct Attack
+    public void Copy(Unit unit)
     {
-        public int damage;   //How much damage does the attack do
-        public int manaCost; //How much does it cost to use the attack
-        public bool type;    //Defines if the attack is magic or physical
-        public string name;  //Name of the attack 
+        name = unit.name;
+        sprite = unit.sprite;
+        health = unit.health;
+        mana = unit.mana;
+        physicalDefense = unit.physicalDefense;
+        magicalDefense = unit.magicalDefense;
+        moneyDrop = unit.moneyDrop;
+        attacks.Clear();
+        for (var i = 0; i < unit.attacks.Count;  i++) { attacks.Add(unit.attacks[i]); }
+        isHuman = unit.isHuman;
+    }
+
+    public void SetName(string name)
+    {
+        this.name = name;
     }
     
-
 }
