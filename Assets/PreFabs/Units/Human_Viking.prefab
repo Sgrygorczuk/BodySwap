@@ -46,8 +46,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Derk
   sprite: {fileID: -1342932389, guid: 7a64fba723d61e24f850aad92787ca43, type: 3}
-  health: 50
-  mana: 20
+  maxHealth: 45
+  currentHealth: 45
+  currentMana: 20
+  maxMana: 20
   physicalDefense: 1
   magicalDefense: 1
   moneyDrop: 20

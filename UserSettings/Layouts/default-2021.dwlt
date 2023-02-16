@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1536
     height: 780.8
   m_ShowMode: 4
-  m_Title: Scene
+  m_Title: Game
   m_RootView: {fileID: 6}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -48,7 +48,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 68
+  controlID: 36
 --- !u!114 &3
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -68,8 +68,8 @@ MonoBehaviour:
     y: 0
     width: 362.40002
     height: 730.8
-  m_MinSize: {x: 275, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 276, y: 71}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 15}
   m_Panes:
   - {fileID: 15}
@@ -94,8 +94,8 @@ MonoBehaviour:
     y: 0
     width: 289.6
     height: 437.6
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 201, y: 221}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 16}
   m_Panes:
   - {fileID: 16}
@@ -224,7 +224,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 200}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 17
+  controlID: 37
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -249,7 +249,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 18
+  controlID: 38
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -301,7 +301,7 @@ MonoBehaviour:
     x: 289.6
     y: 73.6
     width: 882
-    height: 411.8
+    height: 416.6
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
     m_LastAppliedPresetName: Default
@@ -389,7 +389,7 @@ MonoBehaviour:
     m_SaveData: []
   m_LockTracker:
     m_IsLocked: 0
-  m_LastSelectedObjectID: 78692
+  m_LastSelectedObjectID: 116840
 --- !u!114 &14
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -431,22 +431,22 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scripts/BattleScript
+    - Assets/craftpix-net-280167-free-level-map-pixel-art-assets-pack/2 Objects/Trees
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Scripts/BattleScript
+  - Assets/craftpix-net-280167-free-level-map-pixel-art-assets-pack/2 Objects/Trees
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\sgryg\OneDrive\Documents\GitHub\BodySwap
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 147.80002}
-    m_SelectedIDs: 20fd0000
-    m_LastClickedID: 64800
-    m_ExpandedIDs: 00000000f068000004690000066900000a6900000e6900001069000000ca9a3bffffff7f
+    scrollPos: {x: 0, y: 79}
+    m_SelectedIDs: 62800000
+    m_LastClickedID: 32866
+    m_ExpandedIDs: 000000000c6100003e610000426100004661000048610000e86a000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -474,7 +474,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000f0680000
+    m_ExpandedIDs: 000000000c610000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -502,7 +502,7 @@ MonoBehaviour:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
     m_HadKeyboardFocusLastEvent: 1
-    m_ExpandedInstanceIDs: c6230000d06200004c700000207000006470000066680000
+    m_ExpandedInstanceIDs: c6230000d06200004c7000002070000064700000666800001e760000ba7d0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -565,7 +565,7 @@ MonoBehaviour:
     m_ControlHash: -371814159
     m_PrefName: Preview_InspectorPreview
   m_LastInspectedObjectInstanceID: -1
-  m_LastVerticalScrollValue: 0
+  m_LastVerticalScrollValue: 162
   m_GlobalObjectId: 
   m_InspectorMode: 0
   m_LockTracker:
@@ -602,23 +602,23 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 64330100
-      m_LastClickedID: 78692
-      m_ExpandedIDs: 4c4fffff9c50ffffbc51ffffd25effff7e64ffffd466ffff2468ffff7e68ffff906affffd06bffffcac9ffffc6e6fffff2e6ffffa2ecffffd2f5fffff6f6fffff4ffffff7e690000ac6900009a6c00002a6d00003e6e0000b2330100
+      m_SelectedIDs: 7c7500004c8000007e800000a26700006a660000a46d0000c4730000e86c0000b0600000
+      m_LastClickedID: 0
+      m_ExpandedIDs: c2e9feff12ebfeff7eebfeff52edfeffa2eefefff2effeff0cf7feff60f7feff28fbfeff32fbfeff34fbfeff80fbfeffc40affff080bffff4a1affff6a1affff821affff8c1affff861bffffec1bffff621cffffae1cfffff41cffff0aabffffe6acffff7af5ffff28fbfffff4ffffffba970000449800006c9800008e9800008c990000dee80000d2c7010068c80100
       m_RenameOverlay:
         m_UserAcceptedRename: 0
-        m_Name: 
-        m_OriginalName: 
+        m_Name: bushes
+        m_OriginalName: bushes
         m_EditFieldRect:
           serializedVersion: 2
           x: 0
           y: 0
           width: 0
           height: 0
-        m_UserData: 0
+        m_UserData: 118956
         m_IsWaitingForDelay: 0
         m_IsRenaming: 0
-        m_OriginalEventType: 11
+        m_OriginalEventType: 0
         m_IsRenamingFilename: 0
         m_ClientGUIView: {fileID: 4}
       m_SearchString: 
@@ -875,9 +875,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -35.68649, y: -57.643345, z: 4.054138}
+    m_Target: {x: -46.25332, y: -69.080696, z: 0.0020244373}
     speed: 2
-    m_Value: {x: -35.68649, y: -57.643345, z: 4.054138}
+    m_Value: {x: -46.25332, y: -69.080696, z: 0.0020244373}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -928,9 +928,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 16.218449
+    m_Target: 4.275914
     speed: 2
-    m_Value: 16.218449
+    m_Value: 4.275914
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -1027,7 +1027,7 @@ MonoBehaviour:
       y: 21
       width: 882
       height: 395.6
-    m_Scale: {x: 1, y: 1}
+    m_Scale: {x: 1.0589912, y: 1.0589912}
     m_Translation: {x: 441, y: 197.8}
     m_MarginLeft: 0
     m_MarginRight: 0
@@ -1035,10 +1035,10 @@ MonoBehaviour:
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -441
-      y: -197.8
-      width: 882
-      height: 395.6
+      x: -416.43405
+      y: -186.78154
+      width: 832.8681
+      height: 373.56308
     m_MinimalGUI: 1
   m_defaultScale: 1
   m_LastWindowPixelSize: {x: 1102.5, y: 520.75}

@@ -46,8 +46,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Nevil
   sprite: {fileID: -1783572663, guid: 9420ec72492348745846a39143f2a7ba, type: 3}
-  health: 30
-  mana: 25
+  maxHealth: 30
+  currentHealth: 30
+  currentMana: 20
+  maxMana: 20
   physicalDefense: 0.101
   magicalDefense: 0.843
   moneyDrop: 10

@@ -20,14 +20,15 @@ public class EnemyComponents : MonoBehaviour
         enemyUnit.Copy(unit.unitsStats[enemyId]);
         enemyUnit.SetName(unit.SetRandomName());
         
-        maxEnemyAttackIndex = enemyUnit.attacks.Count;
-        //TODO Copy Unit Data from OverWorld to Battle Scene Place Holder 
-        enemyCurrentHealth = enemyUnit.health;
         enemyHealthImage = GameObject.Find("Canvas").transform.Find("Enemy").transform.Find("Enemy_Bar_BG").transform.Find("Enemy_Bar").GetComponent<Image>();
         enemyImage = GameObject.Find("Canvas").transform.Find("Enemy").transform.Find("Enemy_Sprite")
             .GetComponent<Image>();
         enemyImage.sprite = enemyUnit.sprite;
         enemyDamageNumberSpawnPoint = GameObject.Find("Canvas").transform.Find("Enemy").transform.Find("Point").gameObject;
+        
+        maxEnemyAttackIndex = enemyUnit.attacks.Count;
+        enemyCurrentHealth = enemyUnit.currentHealth;
+        enemyHealthImage.fillAmount = (float) enemyCurrentHealth / enemyUnit.maxHealth;
     }
 
 }

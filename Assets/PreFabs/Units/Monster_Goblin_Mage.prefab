@@ -46,8 +46,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Gerry
   sprite: {fileID: -988901159, guid: b08aa260133a1ba408c96ba70589d1a2, type: 3}
-  health: 15
-  mana: 40
+  maxHealth: 15
+  currentHealth: 15
+  currentMana: 40
+  maxMana: 40
   physicalDefense: 1
   magicalDefense: 1
   moneyDrop: 15

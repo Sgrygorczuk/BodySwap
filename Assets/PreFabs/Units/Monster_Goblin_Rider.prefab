@@ -46,8 +46,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Moe
   sprite: {fileID: 937017883, guid: 59aa8ebdf90284640bd37f472f14f689, type: 3}
-  health: 35
-  mana: 20
+  maxHealth: 35
+  currentHealth: 35
+  currentMana: 20
+  maxMana: 20
   physicalDefense: 1
   magicalDefense: 0
   moneyDrop: 30

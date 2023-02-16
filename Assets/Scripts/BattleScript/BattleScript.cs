@@ -24,9 +24,18 @@ public class BattleScript : MonoBehaviour
     private UIComponent _uC; //UI Visual Components and Controls 
 
     //======== Controls
-    private bool _baseState = true;
+    private enum MenuState
+    {
+        Base,
+        Attack,
+        Item
+    }
+    private MenuState _currentMenu = MenuState.Base;
+    
+    
     private int _baseIndex = 0;       //Which base option is the player looking at 
     private int _attackIndex = 0;     //Which attack is the player looking at
+    private int _itemIndex = 0;
     private bool _enemyTurn;
     private Animator _battleAnimator;
     [SerializeField] private GameObject damageNumber;
@@ -56,6 +65,9 @@ public class BattleScript : MonoBehaviour
 
         _uC = GameObject.Find("BattleScript").GetComponent<UIComponent>();
         _uC.SetUpUI();
+        _uC.itemText[0].text = _data.GetItem(0).ToString();
+        _uC.itemText[1].text = _data.GetItem(1).ToString();
+        _uC.itemText[2].text = _data.GetItem(2).ToString();
 
         _battleAnimator = GameObject.Find("Canvas").GetComponent<Animator>();
     }
@@ -100,8 +112,24 @@ public class BattleScript : MonoBehaviour
 
     private void PlayerActions()
     {
-        if (_baseState) { PlayerBaseActions(); }
-        else { PlayerAttackActions(); }
+        switch (_currentMenu)
+        {
+            case MenuState.Base:
+            {
+                PlayerBaseActions(); 
+                break;
+            }
+            case MenuState.Attack:
+            {
+                PlayerAttackActions();
+                break;
+            }
+            case MenuState.Item:
+            {
+                PlayerItemActions();
+                break;
+            }
+        }
     }
 
     private void PlayerBaseActions()
@@ -125,13 +153,14 @@ public class BattleScript : MonoBehaviour
             {
                 case 0:
                 {
-                    _baseState = false;
+                    _currentMenu = MenuState.Attack;
                     _uC.attackTab.SetActive(true);
                     break;
                 }
                 case 1:
                 {
-
+                    _currentMenu = MenuState.Item;
+                    _uC.itemTab.SetActive(true);
                     break;
                 }
                 case 2:
@@ -165,7 +194,7 @@ public class BattleScript : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (_attackIndex < _pC.maxPlayerAttackIndex && _pC.playerCurrentMana >= _pC.playerUnit.attacks[_attackIndex].manaCost){
+            if (_attackIndex < _pC.maxPlayerAttackIndex && _pC.playerUnit.currentMana >= _pC.playerUnit.attacks[_attackIndex].manaCost){
                 StartCoroutine(PlayerAttack());
             }
             else
@@ -175,8 +204,9 @@ public class BattleScript : MonoBehaviour
         }
         else if(Input.GetKeyDown(KeyCode.Escape))
         {
-            _baseState = true;
+            _currentMenu = MenuState.Base;
             _uC.attackTab.SetActive(false);
+            _attackIndex = 0;
         }
     }
 
@@ -189,13 +219,15 @@ public class BattleScript : MonoBehaviour
     private IEnumerator PlayerAttack()
     {
         _battleAnimator.Play("EnemyHurt");
-        SpawnDamage(_eC.enemyDamageNumberSpawnPoint, _pC.playerUnit.attacks[_attackIndex].damage.ToString());
+        var damage = (int) Random.Range(_pC.playerUnit.attacks[_attackIndex].damage * 0.6f,
+            _pC.playerUnit.attacks[_attackIndex].damage);
+        SpawnDamage(_eC.enemyDamageNumberSpawnPoint, damage.ToString());
         var time = TIME_BAR_LOWERING * (_pC.playerUnit.attacks[_attackIndex].damage + 1);
         _currentState = BattleStates.EnemyTurn;
-        _baseState = true;
+        _currentMenu = MenuState.Base;
         _uC.attackTab.SetActive(false);
         StartCoroutine(LowerMagic());
-        StartCoroutine(LowerEnemyHealth());
+        StartCoroutine(LowerEnemyHealth(damage));
         PlayerLoseControls();
         yield return new WaitForSeconds(time);
         if (_eC.enemyCurrentHealth <= 0)
@@ -221,24 +253,23 @@ public class BattleScript : MonoBehaviour
     
     private IEnumerator LowerMagic()
     {
-        var goal = _pC.playerCurrentMana - _pC.playerUnit.attacks[_attackIndex].manaCost;
-        _pC.playerManaText.text = goal + "/" + _pC.playerUnit.mana;
-        for (int i = _pC.playerCurrentMana; i > goal; i--)
+        var goal = _pC.playerUnit.currentMana - _pC.playerUnit.attacks[_attackIndex].manaCost;
+        _pC.playerManaText.text = goal + "/" + _pC.playerUnit.maxMana;
+        for (int i = _pC.playerUnit.currentMana; i > goal; i--)
         {
-            _pC.playerCurrentMana--;
-            _pC.playerManaImage.fillAmount = (float) _pC.playerCurrentMana / _pC.playerUnit.mana;
+            _pC.playerUnit.currentMana--;
+            _pC.playerManaImage.fillAmount = (float) _pC.playerUnit.currentMana / _pC.playerUnit.maxMana;
             yield return new WaitForSeconds(TIME_BAR_LOWERING);
         }
     }
-    
-    private IEnumerator LowerEnemyHealth()
+
+    private IEnumerator LowerEnemyHealth(int damage)
     {
-        //TODO make a better damage system based on physical vs magic 
-        var goal = _eC.enemyCurrentHealth - _pC.playerUnit.attacks[_attackIndex].damage;
+        var goal = _eC.enemyCurrentHealth - damage;
         for (int i = _eC.enemyCurrentHealth; i > goal; i--)
         {
             _eC.enemyCurrentHealth--;
-            _eC.enemyHealthImage.fillAmount = (float) _eC.enemyCurrentHealth / _eC.enemyUnit.health;
+            _eC.enemyHealthImage.fillAmount = (float) _eC.enemyCurrentHealth / _eC.enemyUnit.maxHealth;
             yield return new WaitForSeconds(TIME_BAR_LOWERING);
         }
     }
@@ -251,6 +282,94 @@ public class BattleScript : MonoBehaviour
     }
     
     //==================================================================================================================
+    //Items Actions 
+    //==================================================================================================================
+    
+    private void PlayerItemActions()
+    {
+        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            _itemIndex--;
+            if (_itemIndex < 0) { _itemIndex = _uC.itemArrows.Length - 1; }
+            UpdateItemArrows();
+        }
+        else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            _itemIndex++;
+            if (_itemIndex == (_uC.itemArrows).Length) { _itemIndex = 0; }
+            UpdateItemArrows();
+        }
+        else if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (_data.GetItem(_itemIndex) >= 1){
+                _data.SubItem(_itemIndex);
+                _uC.itemText[_itemIndex].text = _data.GetItem(_itemIndex).ToString();
+                switch (_itemIndex)
+                {
+                    case 0:
+                    {
+                        StartCoroutine(IncreasePlayerHealth());
+                        break;
+                    }
+                    case 1:
+                    {
+                        StartCoroutine(IncreaseMagic());
+                        break;
+                    }
+                    case 2:
+                    {
+                        StartCoroutine(SetUpEscapeScreen());
+                        break;
+                    }
+                }
+                _currentMenu = MenuState.Base;
+                _uC.itemTab.SetActive(false);
+                _itemIndex = 0;
+                UpdateItemArrows();
+            }
+            else
+            {
+                //TODO play negative SFX
+            }
+        }
+        else if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            _currentMenu = MenuState.Base;
+            _uC.itemTab.SetActive(false);
+            _itemIndex = 0;
+            UpdateItemArrows();
+        }
+    }
+
+    private void UpdateItemArrows()
+    {
+        foreach (var arrow in _uC.itemArrows) { arrow.SetActive(false); }
+        _uC.itemArrows[_itemIndex].SetActive(true);
+    }
+    
+    private IEnumerator IncreaseMagic()
+    {
+        for (int i = _pC.playerUnit.currentMana; i < _pC.playerUnit.maxMana; i++)
+        {
+            _pC.playerUnit.currentMana++;
+            _pC.playerManaImage.fillAmount = (float) _pC.playerUnit.currentMana / _pC.playerUnit.maxMana;
+            yield return new WaitForSeconds(TIME_BAR_LOWERING);
+        }
+        _pC.playerManaText.text = _pC.playerUnit.currentMana + "/" + _pC.playerUnit.maxMana;
+    }
+    
+    private IEnumerator IncreasePlayerHealth()
+    {
+        for (int i = _pC.playerUnit.currentHealth; i < _pC.playerUnit.maxHealth; i++)
+        {
+            _pC.playerUnit.currentHealth++;
+            _pC.playerHealthImage.fillAmount = (float) _pC.playerUnit.currentHealth / _pC.playerUnit.maxHealth;
+            yield return new WaitForSeconds(TIME_BAR_LOWERING);
+        }
+        _pC.playerHealthText.text = _pC.playerUnit.currentHealth + "/" + _pC.playerUnit.maxHealth;
+    }
+
+    //==================================================================================================================
     //Enemy Actions 
     //==================================================================================================================
 
@@ -258,12 +377,14 @@ public class BattleScript : MonoBehaviour
     {
         var rollAttack = Random.Range(0, _eC.maxEnemyAttackIndex);
         var time = TIME_BAR_LOWERING * (_eC.enemyUnit.attacks[rollAttack].damage + 1);
+        var damage = (int) Random.Range(_eC.enemyUnit.attacks[rollAttack].damage * 0.6f,
+            _eC.enemyUnit.attacks[rollAttack].damage);
         yield return new WaitForSeconds(TIME_TILL_ENEMY_TURN);
-        StartCoroutine(LowerPlayerHealth(rollAttack));
+        StartCoroutine(LowerPlayerHealth(damage));
         _battleAnimator.Play("Shake");
-        SpawnDamage(_pC.playerDamageNumberSpawnPoint, _eC.enemyUnit.attacks[rollAttack].damage.ToString());
+        SpawnDamage(_pC.playerDamageNumberSpawnPoint, damage.ToString());
         yield return new WaitForSeconds(time);
-        if (_pC.playerCurrentHealth <= 0)
+        if (_pC.playerUnit.currentHealth <= 0)
         {
             StartCoroutine(LoseAction());
             yield break;
@@ -273,14 +394,14 @@ public class BattleScript : MonoBehaviour
 
     }
 
-    private IEnumerator LowerPlayerHealth(int rollAttack)
+    private IEnumerator LowerPlayerHealth(int damage)
     {
-        var goal = _pC.playerCurrentHealth - _eC.enemyUnit.attacks[rollAttack].damage;
-        _pC.playerHealthText.text = goal + "/" + _pC.playerUnit.health;
-        for (int i = _pC.playerCurrentHealth; i > goal; i--)
+        var goal = _pC.playerUnit.currentHealth - damage;
+        _pC.playerHealthText.text = goal + "/" + _pC.playerUnit.maxHealth;
+        for (int i = _pC.playerUnit.currentHealth; i > goal; i--)
         {
-            _pC.playerCurrentHealth--;
-            _pC.playerHealthImage.fillAmount = (float) _pC.playerCurrentHealth / _pC.playerUnit.health;
+            _pC.playerUnit.currentHealth--;
+            _pC.playerHealthImage.fillAmount = (float) _pC.playerUnit.currentHealth / _pC.playerUnit.maxHealth;
             yield return new WaitForSeconds(TIME_BAR_LOWERING);
         }
     }
@@ -292,7 +413,7 @@ public class BattleScript : MonoBehaviour
     }
     
     //==================================================================================================================
-    //Win Actions 
+    //End Actions 
     //==================================================================================================================
 
     private IEnumerator WinAction()
@@ -300,13 +421,10 @@ public class BattleScript : MonoBehaviour
         _battleAnimator.Play("EnemyFade"); 
         yield return new WaitForSeconds(TIME_TILL_ENEMY_TURN * 2);
         SetUpVictoryScreen(true);
+        _data.UpdateUnit(_pC.playerUnit);
         yield return new WaitForSeconds(TIME_TILL_ENEMY_TURN);
         _currentState = BattleStates.End;
     }
-    
-    //==================================================================================================================
-    //Lose Actions 
-    //==================================================================================================================
 
     private IEnumerator LoseAction()
     {
@@ -315,7 +433,8 @@ public class BattleScript : MonoBehaviour
         _eC.enemyImage.sprite = _pC.playerUnit.sprite;
         _pC.playerIcon.sprite = _eC.enemyUnit.sprite;
         UpdatePlayerData();
-        SwapData();
+        //_data.SetUnit(_unitsAndAttacksScript.unitsStats[_data.GetId()]);
+        _data.UpdateUnit(_eC.enemyUnit);
         yield return new WaitForSeconds(TIME_TILL_ENEMY_TURN);
         _battleAnimator.Play("EnemyFade"); 
         SetUpVictoryScreen(false);
@@ -326,18 +445,12 @@ public class BattleScript : MonoBehaviour
     private void UpdatePlayerData()
     {
         _pC.playerNameText.text = _eC.enemyUnit.name;
-        _pC.playerHealthImage.fillAmount = (float) _eC.enemyCurrentHealth / _eC.enemyUnit.health;
-        _eC.enemyHealthImage.fillAmount = (float) _pC.playerCurrentHealth / _pC.playerUnit.health;
-        _pC.playerManaImage.fillAmount =  (float) _eC.enemyUnit.mana / _eC.enemyUnit.mana;
-        _pC.playerHealthText.text = _eC.enemyCurrentHealth + "/" + _eC.enemyUnit.health;
-        _pC.playerManaText.text = _eC.enemyUnit.mana+ "/" + _eC.enemyUnit.mana;
+        _pC.playerHealthImage.fillAmount = (float) _eC.enemyCurrentHealth / _eC.enemyUnit.maxHealth;
+        _eC.enemyHealthImage.fillAmount = (float) _pC.playerUnit.currentHealth / _pC.playerUnit.maxHealth;
+        _pC.playerManaImage.fillAmount =  (float) _eC.enemyUnit.currentMana / _eC.enemyUnit.currentMana;
+        _pC.playerHealthText.text = _eC.enemyCurrentHealth + "/" + _eC.enemyUnit.maxHealth;
+        _pC.playerManaText.text = _eC.enemyUnit.currentMana+ "/" + _eC.enemyUnit.currentMana;
 
-    }
-    
-    private void SwapData()
-    {
-        _data.SetUnit(_unitsAndAttacksScript.unitsStats[_data.GetId()]);
-        _data.UpdateUnit(_eC.enemyUnit);
     }
 
     private void SetUpVictoryScreen(bool playerWon)
@@ -350,8 +463,18 @@ public class BattleScript : MonoBehaviour
         else
         {
             _uC.defeated.text = "You have defeated " + _pC.playerUnit.name + " may they rest in peace.";
-            _uC.gold.text = "You gather " +  _pC.playerUnit.moneyDrop + " gold pieces.";   
+            _uC.gold.text = "You gather " +  _data.GetMoney() + " gold pieces.";   
         }
+        _uC.victoryTab.SetActive(true);
+        if (playerWon) { _data.AddMoney(_eC.enemyUnit.moneyDrop); }
+    }
+    
+    private IEnumerator SetUpEscapeScreen()
+    {
+        _uC.defeated.text = "You have escaped from " + _eC.enemyUnit.name + " in a cloud of smoke.";
+        _uC.gold.text = "You get to live another day.";
+        yield return new WaitForSeconds(TIME_TILL_ENEMY_TURN);
+        _currentState = BattleStates.End;
         _uC.victoryTab.SetActive(true);
     }
 

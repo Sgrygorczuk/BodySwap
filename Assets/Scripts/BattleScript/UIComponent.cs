@@ -9,6 +9,9 @@ public class UIComponent : MonoBehaviour
     [HideInInspector] public TextMeshProUGUI[] baseText = new TextMeshProUGUI[3];
     [HideInInspector] public GameObject attackTab;
     [HideInInspector] public GameObject[] attackArrows = new GameObject[4];
+    [HideInInspector] public GameObject itemTab;
+    [HideInInspector] public GameObject[] itemArrows = new GameObject[3];
+    [HideInInspector] public TextMeshProUGUI[] itemText = new TextMeshProUGUI[3];
     [HideInInspector] public GameObject canvas;
     [HideInInspector] public GameObject victoryTab;
     [HideInInspector] public TextMeshProUGUI defeated;
@@ -39,6 +42,23 @@ public class UIComponent : MonoBehaviour
             var path = "Text_" + i;
             var text = GameObject.Find("Canvas").transform.Find("Base_Player_Actions").Find(path).GetComponent<TextMeshProUGUI>();
             baseText[i] = text;
+        }
+        
+        itemTab = GameObject.Find("Canvas").transform.Find("Item_Player_Actions").gameObject;
+        itemTab.SetActive(false);
+        
+        //Connects the Item Point Arrows 
+        for (int i = 0; i < itemArrows.Length; i++)
+        {
+            var path = "Point_" + i;
+            var arrow = GameObject.Find("Canvas").transform.Find("Item_Player_Actions").Find(path).gameObject;
+            itemArrows[i] = arrow;
+        }
+        for (int i = 0; i < itemText.Length; i++)
+        {
+            var path = "Item_" + i;
+            var text = GameObject.Find("Canvas").transform.Find("Item_Player_Actions").Find(path).Find("Amount_Left").GetComponent<TextMeshProUGUI>();
+            itemText[i] = text;
         }
 
         attackTab = GameObject.Find("Canvas").transform.Find("Attack_Player_Actions").gameObject;

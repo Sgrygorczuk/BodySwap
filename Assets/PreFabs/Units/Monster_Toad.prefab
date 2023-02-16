@@ -46,8 +46,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Janek
   sprite: {fileID: 1576735152, guid: 116887a244e6d9f4aa1d7788df6cbe4a, type: 3}
-  health: 25
-  mana: 25
+  maxHealth: 25
+  currentHealth: 25
+  currentMana: 25
+  maxMana: 25
   physicalDefense: 1
   magicalDefense: 1
   moneyDrop: 15

@@ -5,11 +5,13 @@ public class Unit : MonoBehaviour
 {
     public string name = "";
     public Sprite sprite;
-    public int health = 100;
-    public int mana = 100;
+    [Range(15,45)] public int maxHealth = 15;
+    [Range(15,45)] public int currentHealth = 15;
+    [Range(15,45)] public int currentMana = 15;
+    [Range(15,45)] public int maxMana = 15;
     [Range(0,1)] public float physicalDefense = 1;
     [Range(0,1)] public float magicalDefense= 1;
-    public int moneyDrop = 10;
+    [Range(5,40)]public int moneyDrop = 10;
     public List<Attacks> attacks = new List<Attacks>();
     public bool isHuman;
 
@@ -17,8 +19,10 @@ public class Unit : MonoBehaviour
     {
         name = unit.name;
         sprite = unit.sprite;
-        health = unit.health;
-        mana = unit.mana;
+        maxHealth = unit.maxHealth;
+        currentHealth = unit.currentHealth;
+        maxMana = unit.maxMana;
+        currentMana = unit.currentMana;
         physicalDefense = unit.physicalDefense;
         magicalDefense = unit.magicalDefense;
         moneyDrop = unit.moneyDrop;

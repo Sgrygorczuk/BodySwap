@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -16,8 +15,6 @@ public class PlayerComponents : MonoBehaviour
     [HideInInspector] public GameObject playerDamageNumberSpawnPoint;
     
     //======== Player Controls 
-    [HideInInspector] public int playerCurrentHealth;
-    [HideInInspector] public int playerCurrentMana;
     [HideInInspector] public int maxPlayerAttackIndex = 0;  //How many attacks the player has access to 
 
     //===== Sets Up Player =============================================================================================
@@ -44,10 +41,10 @@ public class PlayerComponents : MonoBehaviour
         //Pulls and passes on the information to the components 
         playerNameText.text = playerUnit.name;
         playerIcon.sprite = playerUnit.sprite;
-        playerCurrentHealth = playerUnit.health;
-        playerHealthText.text = playerCurrentHealth + "/" + playerUnit.health;
-        playerCurrentMana = playerUnit.mana;
-        playerManaText.text = playerCurrentMana + "/" + playerUnit.mana;
+        playerHealthText.text = playerUnit.currentHealth + "/" + playerUnit.maxHealth;
+        playerManaText.text = playerUnit.currentMana + "/" + playerUnit.maxMana;
+        playerHealthImage.fillAmount = (float) playerUnit.currentHealth / playerUnit.maxHealth;
+        playerManaImage.fillAmount =  (float) playerUnit.currentMana / playerUnit.maxMana;
     }
 
     private void SetUpPlayerAttacks()

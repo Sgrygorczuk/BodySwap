@@ -46,8 +46,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Aiden
   sprite: {fileID: -684582412, guid: bdaf4b5d55f06f3428bc026898a073ef, type: 3}
-  health: 30
-  mana: 30
+  maxHealth: 20
+  currentHealth: 20
+  currentMana: 25
+  maxMana: 25
   physicalDefense: 1
   magicalDefense: 1
   moneyDrop: 10
@@ -55,4 +57,4 @@ MonoBehaviour:
   - {fileID: 323581525886419684, guid: 75d3fef418a75ce4f8b2910d3de99267, type: 3}
   - {fileID: 4196131886251851383, guid: 0bced2ab52b6c314a8cbb37ad3ed3bc4, type: 3}
   - {fileID: 3073414804893864900, guid: 217c6e4f194552048b8fa5c113bb1d2c, type: 3}
-  isHuman: 1
+  isHuman: 0

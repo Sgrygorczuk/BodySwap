@@ -46,8 +46,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Curk
   sprite: {fileID: -255159116, guid: 461d01f8c37c6334cb2a36d76f80e4be, type: 3}
-  health: 40
-  mana: 15
+  maxHealth: 40
+  currentHealth: 40
+  currentMana: 15
+  maxMana: 15
   physicalDefense: 1
   magicalDefense: 1
   moneyDrop: 25

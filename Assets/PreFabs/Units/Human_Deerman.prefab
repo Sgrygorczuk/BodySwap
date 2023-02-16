@@ -46,8 +46,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Jenny
   sprite: {fileID: 791185546, guid: 3ae5bbd746209634e96282d6a8fe8147, type: 3}
-  health: 40
-  mana: 20
+  maxHealth: 40
+  currentHealth: 40
+  currentMana: 20
+  maxMana: 20
   physicalDefense: 1
   magicalDefense: 1
   moneyDrop: 20
