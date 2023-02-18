@@ -5,8 +5,8 @@ using TMPro;
 public class UIComponent : MonoBehaviour
 {
     //========= Menu Components 
-    [HideInInspector] public GameObject[] baseArrows = new GameObject[3];
-    [HideInInspector] public TextMeshProUGUI[] baseText = new TextMeshProUGUI[3];
+    [HideInInspector] public GameObject[] baseArrows = new GameObject[2];
+    [HideInInspector] public TextMeshProUGUI[] baseText = new TextMeshProUGUI[2];
     [HideInInspector] public GameObject attackTab;
     [HideInInspector] public GameObject[] attackArrows = new GameObject[4];
     [HideInInspector] public GameObject itemTab;

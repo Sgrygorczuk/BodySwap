@@ -13,6 +13,10 @@ public class PlayerInteract : MonoBehaviour
     private GameObject _shopUI;
     private PlayerMovement _playerMovement;
 
+    private AudioSource _talkAudioSource;
+    private AudioSource _fightAudioSource;
+    private AudioSource _shopAudioSource;
+
     private enum TalkState
     {
         noTalking,
@@ -35,6 +39,10 @@ public class PlayerInteract : MonoBehaviour
         _talkUIScript = GameObject.Find("Talk_Canvas").GetComponent<OverworldTalk>();
         _talkUI.enabled = false;
 
+        _talkAudioSource = GameObject.Find("SFX").transform.Find("Talk").GetComponent<AudioSource>();
+        _fightAudioSource = GameObject.Find("SFX").transform.Find("Fight").GetComponent<AudioSource>();
+
+        
         _playerMovement = GetComponent<PlayerMovement>();
         
         if (_data._enemyParentPath != "")
@@ -56,6 +64,7 @@ public class PlayerInteract : MonoBehaviour
                     _talkUI.enabled = true;
                     _currentTalkState = TalkState.isTalking;
                     _playerMovement.UpdateMovementState(false);
+                    _talkAudioSource.Play();
                 }
                 break;
             }
@@ -67,6 +76,7 @@ public class PlayerInteract : MonoBehaviour
                     _talkUI.enabled = false;
                     _currentTalkState = TalkState.canTalk;
                     _playerMovement.UpdateMovementState(true);
+                    _talkAudioSource.Play();
                 }
                 break;
             }
@@ -81,6 +91,7 @@ public class PlayerInteract : MonoBehaviour
             _data.SetId(col.GetComponent<OWUnit>().unit.enemyId);
             _data.SetPosition(transform.position);
             _data.SetEnemy(col.transform.parent.name, col.name);
+            _fightAudioSource.Play();
             SceneManager.LoadScene("BattleScene");
         }
         //Same and is a monster or human 
