@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitName: 
-  sprite: {fileID: 791185546, guid: 3ae5bbd746209634e96282d6a8fe8147, type: 3}
+  sprite: {fileID: 1871723826, guid: f03a5ab2a7f7832438311646b96e24c6, type: 3}
   maxHealth: 40
   currentHealth: 40
   currentMana: 20
