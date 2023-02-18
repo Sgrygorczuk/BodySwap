@@ -167,12 +167,14 @@ public class BattleScript : MonoBehaviour
                 {
                     _currentMenu = MenuState.Attack;
                     _uC.attackTab.SetActive(true);
+                    _selectAudioSource.Play();
                     break;
                 }
                 case 1:
                 {
                     _currentMenu = MenuState.Item;
                     _uC.itemTab.SetActive(true);
+                    _selectAudioSource.Play();
                     break;
                 }
                 case 2:
@@ -214,6 +216,7 @@ public class BattleScript : MonoBehaviour
                 _uC.attackTab.SetActive(false);
                 _attackIndex = 0;
                 _selectAudioSource.Play();
+                UpdateAttackArrows();
             }
             else 
             {
@@ -234,6 +237,7 @@ public class BattleScript : MonoBehaviour
             _currentMenu = MenuState.Base;
             _uC.attackTab.SetActive(false);
             _attackIndex = 0;
+            UpdateAttackArrows();
         }
     }
 
@@ -262,6 +266,7 @@ public class BattleScript : MonoBehaviour
         {
             yield return new WaitForSeconds(TIME_TILL_ENEMY_TURN / 2f);
             StartCoroutine(WinAction());
+            _selectAudioSource.Play();
             yield break;
         }
         _enemyTurn = true;
@@ -472,6 +477,7 @@ public class BattleScript : MonoBehaviour
     {
         _battleAnimator.Play("Swap");
         yield return new WaitForSeconds(0.25f);
+        SetUpVictoryScreen(false);
         _eC.enemyImage.sprite = _pC.playerUnit.sprite;
         _pC.playerIcon.sprite = _eC.enemyUnit.sprite;
         UpdatePlayerData();
@@ -479,8 +485,7 @@ public class BattleScript : MonoBehaviour
         _data.SetUnit(_eC.enemyUnit);
         _data.ResetItems();
         yield return new WaitForSeconds(TIME_TILL_ENEMY_TURN);
-        _battleAnimator.Play("EnemyFade"); 
-        SetUpVictoryScreen(false);
+        _battleAnimator.Play("EnemyFade");
         yield return new WaitForSeconds(TIME_TILL_ENEMY_TURN);
         _currentState = BattleStates.End;
     }

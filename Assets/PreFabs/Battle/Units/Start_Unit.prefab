@@ -52,7 +52,7 @@ MonoBehaviour:
   maxMana: 15
   physicalDefense: 1
   magicalDefense: 1
-  moneyDrop: 15
+  moneyDrop: 20
   attacks:
   - {fileID: 323581525886419684, guid: 75d3fef418a75ce4f8b2910d3de99267, type: 3}
   isHuman: 1

@@ -9,7 +9,7 @@ public class Data : MonoBehaviour
     private static Data _instance; //Is the instance of the object that will show up in each scene 
     public Unit player;
     private int _enemyId = 0;
-    private int _money = 10;
+    private int _money = 25;
     private int[] _items = new[] { 0, 0, 0 }; //Health, Mana, Smoke Bomb
     [SerializeField]  private bool[] _goalsCompleted = new bool[13];
     private Vector2 _playerPosition = Vector2.zero;

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Base;
@@ -75,5 +76,11 @@ public class OverworldUI : MonoBehaviour
 
 
     }
-    
+    public void UpdateItemUI(string money, string hp, string mana, string bomb)
+    {
+        moneyText.text = money;
+        healthPotionText.text = hp;
+        manaPotionText.text = mana;
+        smokeBombText.text = bomb;
+    }
 }
