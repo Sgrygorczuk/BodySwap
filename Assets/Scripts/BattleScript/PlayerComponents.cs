@@ -1,3 +1,4 @@
+using Base;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -23,7 +24,7 @@ public class PlayerComponents : MonoBehaviour
     {
         //Grabs the components  
         playerUnit = GameObject.Find("Canvas").transform.Find("Player_Stats").GetComponent<Unit>();
-        playerUnit.Copy(unit);
+        playerUnit = unit;
         
         //Updated once
         playerNameText = GameObject.Find("Canvas").transform.Find("Player_Stats").transform.Find("Player_Name").GetComponent<TextMeshProUGUI>();
@@ -39,7 +40,7 @@ public class PlayerComponents : MonoBehaviour
         playerDamageNumberSpawnPoint = GameObject.Find("Canvas").transform.Find("Player_Stats").transform.Find("Point").gameObject;
 
         //Pulls and passes on the information to the components 
-        playerNameText.text = playerUnit.name;
+        playerNameText.text = playerUnit.unitName;
         playerIcon.sprite = playerUnit.sprite;
         playerHealthText.text = playerUnit.currentHealth + "/" + playerUnit.maxHealth;
         playerManaText.text = playerUnit.currentMana + "/" + playerUnit.maxMana;
@@ -58,7 +59,7 @@ public class PlayerComponents : MonoBehaviour
             var attackType = GameObject.Find("Canvas").transform.Find("Attack_Player_Actions").transform.Find(path).transform.Find("Attack_Type").GetComponent<Image>();
             var attackManaCost = GameObject.Find("Canvas").transform.Find("Attack_Player_Actions").transform.Find(path).transform.Find("Attack_MP_Cost").GetComponent<TextMeshProUGUI>();
             
-            attackName.text = playerUnit.attacks[i].name;
+            attackName.text = playerUnit.attacks[i].attackName;
             //TODO Have the type select image 
             attackManaCost.text = "MP: " + playerUnit.attacks[i].manaCost;
         }

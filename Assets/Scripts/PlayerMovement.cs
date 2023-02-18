@@ -16,6 +16,8 @@ public class PlayerMovement : MonoBehaviour
     [Header("Character Speed")]
     public float speed = 3;    //Speed at which player can move horizontally and vertically 
 
+    public bool canMove = true;
+
     //Animation 
     private Animator _animator; //Animator that will change based on player input 
     //The Animator Parameter that is used to switch between walking and idle  
@@ -47,11 +49,14 @@ public class PlayerMovement : MonoBehaviour
     //Gets player inputs, update the direction the player is facing and updates their animation state 
     public void Update()
     {
-        //Collects the player input 
-        _xVelocity = Input.GetAxis("Horizontal") * speed;
-        _yVelocity = Input.GetAxis("Vertical") * speed;
-
-        UpdateScale();
+        if (canMove)
+        {
+            //Collects the player input 
+            _xVelocity = Input.GetAxis("Horizontal") * speed;
+            _yVelocity = Input.GetAxis("Vertical") * speed;   
+            UpdateScale();
+        }
+        
         UpdateAnimation();
     }
     

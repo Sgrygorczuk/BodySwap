@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68b8bb42a36ff5e4eb9883d63ad63e71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: Slam
+  attackName: Slam
   damage: 6
   manaCost: 0
   isMagic: 0

@@ -44,15 +44,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03a3d843d1c6fff4fb682adb1aff33c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: Magellen
+  unitName: Magellen
   sprite: {fileID: 1871723826, guid: f03a5ab2a7f7832438311646b96e24c6, type: 3}
   maxHealth: 15
   currentHealth: 15
-  currentMana: 20
-  maxMana: 20
+  currentMana: 15
+  maxMana: 15
   physicalDefense: 1
   magicalDefense: 1
-  moneyDrop: 10
+  moneyDrop: 15
   attacks:
   - {fileID: 323581525886419684, guid: 75d3fef418a75ce4f8b2910d3de99267, type: 3}
   isHuman: 1

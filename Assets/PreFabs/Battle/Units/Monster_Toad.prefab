@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03a3d843d1c6fff4fb682adb1aff33c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: Janek
+  name: Esmeralla
   sprite: {fileID: 1576735152, guid: 116887a244e6d9f4aa1d7788df6cbe4a, type: 3}
   maxHealth: 25
   currentHealth: 25

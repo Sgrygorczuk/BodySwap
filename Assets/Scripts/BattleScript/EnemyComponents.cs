@@ -1,3 +1,4 @@
+using Base;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,7 +18,7 @@ public class EnemyComponents : MonoBehaviour
     {
 
         enemyUnit = GameObject.Find("Canvas").transform.Find("Enemy").GetComponent<Unit>();
-        enemyUnit.Copy(unit.unitsStats[enemyId]);
+        enemyUnit = unit.unitsStats[enemyId];
         enemyUnit.SetName(unit.SetRandomName());
         
         enemyHealthImage = GameObject.Find("Canvas").transform.Find("Enemy").transform.Find("Enemy_Bar_BG").transform.Find("Enemy_Bar").GetComponent<Image>();

@@ -421,7 +421,7 @@ public class BattleScript : MonoBehaviour
         _battleAnimator.Play("EnemyFade"); 
         yield return new WaitForSeconds(TIME_TILL_ENEMY_TURN * 2);
         SetUpVictoryScreen(true);
-        _data.UpdateUnit(_pC.playerUnit);
+        _data.SetUnit(_pC.playerUnit);
         yield return new WaitForSeconds(TIME_TILL_ENEMY_TURN);
         _currentState = BattleStates.End;
     }
@@ -433,8 +433,9 @@ public class BattleScript : MonoBehaviour
         _eC.enemyImage.sprite = _pC.playerUnit.sprite;
         _pC.playerIcon.sprite = _eC.enemyUnit.sprite;
         UpdatePlayerData();
-        _data.SetUnit(_unitsAndAttacksScript.unitsStats[_data.GetId()]);
-        //_data.UpdateUnit(_eC.enemyUnit);
+        _eC.enemyUnit.currentHealth = _eC.enemyCurrentHealth;
+        _data.SetUnit(_eC.enemyUnit);
+        _data.ResetItems();
         yield return new WaitForSeconds(TIME_TILL_ENEMY_TURN);
         _battleAnimator.Play("EnemyFade"); 
         SetUpVictoryScreen(false);
@@ -444,7 +445,7 @@ public class BattleScript : MonoBehaviour
     
     private void UpdatePlayerData()
     {
-        _pC.playerNameText.text = _eC.enemyUnit.name;
+        _pC.playerNameText.text = _eC.enemyUnit.unitName;
         _pC.playerHealthImage.fillAmount = (float) _eC.enemyCurrentHealth / _eC.enemyUnit.maxHealth;
         _eC.enemyHealthImage.fillAmount = (float) _pC.playerUnit.currentHealth / _pC.playerUnit.maxHealth;
         _pC.playerManaImage.fillAmount =  (float) _eC.enemyUnit.currentMana / _eC.enemyUnit.currentMana;
@@ -457,12 +458,12 @@ public class BattleScript : MonoBehaviour
     {
         if (playerWon)
         {
-            _uC.defeated.text = "You have defeated " + _eC.enemyUnit.name + " may they rest in peace.";
+            _uC.defeated.text = "You have defeated " + _eC.enemyUnit.unitName + " may they rest in peace.";
             _uC.gold.text = "You gather " +  _eC.enemyUnit.moneyDrop + " gold pieces.";
         }
         else
         {
-            _uC.defeated.text = "You have defeated " + _pC.playerUnit.name + " may they rest in peace.";
+            _uC.defeated.text = "You have defeated " + _pC.playerUnit.unitName + " may they rest in peace.";
             _uC.gold.text = "You gather " +  _data.GetMoney() + " gold pieces.";   
         }
         _uC.victoryTab.SetActive(true);
@@ -471,7 +472,7 @@ public class BattleScript : MonoBehaviour
     
     private IEnumerator SetUpEscapeScreen()
     {
-        _uC.defeated.text = "You have escaped from " + _eC.enemyUnit.name + " in a cloud of smoke.";
+        _uC.defeated.text = "You have escaped from " + _eC.enemyUnit.unitName + " in a cloud of smoke.";
         _uC.gold.text = "You get to live another day.";
         yield return new WaitForSeconds(TIME_TILL_ENEMY_TURN);
         _currentState = BattleStates.End;
