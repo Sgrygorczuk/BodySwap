@@ -1,3 +1,4 @@
+using System;
 using Base;
 using UnityEngine;
 
@@ -11,7 +12,9 @@ public class Data : MonoBehaviour
     private int _money = 10;
     private int[] _items = new[] { 0, 0, 0 }; //Health, Mana, Smoke Bomb
     [SerializeField]  private bool[] _goalsCompleted = new bool[13];
-    private Vector2 _playerPosition = Vector2.zero; 
+    private Vector2 _playerPosition = Vector2.zero;
+    public string _enemyParentPath = "";
+    public string _enemyPath = "";
 
     private string[] _goalText = new[]
     {
@@ -60,7 +63,7 @@ public class Data : MonoBehaviour
 
     public void SetUnit(Unit unit)
     {
-        player = unit;
+        player.Copy(unit);
     }
     public Unit GetUnit() { return player; }
 
@@ -119,6 +122,12 @@ public class Data : MonoBehaviour
     public void ResetGoalState()
     {
         _currentGoalScore = 0;
+    }
+
+    public void SetEnemy(string parent, string enemy)
+    {
+        _enemyParentPath = parent;
+        _enemyPath = enemy;
     }
 
 }

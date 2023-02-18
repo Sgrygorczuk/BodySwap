@@ -38,8 +38,9 @@ public class OWUnit : MonoBehaviour
         _spriteRendererIcon.enabled = visible;
     }
     
-    public IEnumerator ActivationRoutine()
+    public IEnumerator Incapacitate()
     {
+        print("A");
         _spriteRenderer.enabled = false;
         _boxCollider2Ds[0].enabled = false;
         _boxCollider2Ds[1].enabled = false;

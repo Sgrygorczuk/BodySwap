@@ -36,6 +36,12 @@ public class PlayerInteract : MonoBehaviour
         _talkUI.enabled = false;
 
         _playerMovement = GetComponent<PlayerMovement>();
+        
+        if (_data._enemyParentPath != "")
+        {
+            var owUnit = GameObject.Find(_data._enemyParentPath).transform.Find(_data._enemyPath).GetComponent<OWUnit>();
+            StartCoroutine(owUnit.Incapacitate());
+        }
     }
 
     private void Update()
@@ -70,14 +76,15 @@ public class PlayerInteract : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D col)
     {
         //Not the same but monster or human 
-        if (!col.CompareTag(tag) && (col.CompareTag("Monster")) || col.CompareTag("Human"))
+        if (!col.CompareTag(tag) && ((col.CompareTag("Monster")) || col.CompareTag("Human")))
         {
             _data.SetId(col.GetComponent<OWUnit>().unit.enemyId);
             _data.SetPosition(transform.position);
+            _data.SetEnemy(col.transform.parent.name, col.name);
             SceneManager.LoadScene("BattleScene");
         }
         //Same and is a monster or human 
-        if (col.CompareTag(tag) && (col.CompareTag("Monster")) || col.CompareTag("Human"))
+        if (col.CompareTag(tag) && ((col.CompareTag("Monster")) || col.CompareTag("Human")))
         {
             var owUnit = col.GetComponent<OWUnit>();
             owUnit.SetIcon(true);

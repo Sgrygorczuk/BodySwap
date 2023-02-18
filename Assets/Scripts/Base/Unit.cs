@@ -36,6 +36,20 @@ namespace Base
 
         public LifeGoals lifeGoal;
 
+        public void Copy(Unit unit)
+        {
+            unitName = unit.unitName;
+            sprite = unit.sprite;
+            maxHealth = unit.maxHealth;
+            currentHealth = unit.currentHealth;
+            maxMana = unit.maxMana;
+            currentMana = unit.currentMana;
+            attacks = unit.attacks;
+            isHuman = unit.isHuman;
+            lifeGoal = unit.lifeGoal;
+            tag = unit.tag;
+        }
+        
         public void SetName(string name)
         {
             this.unitName = name;

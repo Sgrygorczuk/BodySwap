@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2575733550152686117}
   m_Layer: 0
   m_Name: Human_Viking
-  m_TagString: Untagged
+  m_TagString: Human
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03a3d843d1c6fff4fb682adb1aff33c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: Derk
+  unitName: 
   sprite: {fileID: -1342932389, guid: 7a64fba723d61e24f850aad92787ca43, type: 3}
   maxHealth: 45
   currentHealth: 45

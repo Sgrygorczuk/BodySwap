@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1008978178988166899}
   m_Layer: 0
   m_Name: Human_Axman
-  m_TagString: Untagged
+  m_TagString: Human
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03a3d843d1c6fff4fb682adb1aff33c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: Nevil
+  unitName: 
   sprite: {fileID: -1783572663, guid: 9420ec72492348745846a39143f2a7ba, type: 3}
   maxHealth: 30
   currentHealth: 30
@@ -57,4 +57,5 @@ MonoBehaviour:
   - {fileID: 323581525886419684, guid: 75d3fef418a75ce4f8b2910d3de99267, type: 3}
   - {fileID: 9111510990389033204, guid: 03ace5d3e09a72e4992276f15abae91a, type: 3}
   isHuman: 1
+  enemyId: 0
   lifeGoal: 11
