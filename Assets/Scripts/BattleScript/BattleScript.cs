@@ -40,6 +40,11 @@ public class BattleScript : MonoBehaviour
     private Animator _battleAnimator;
     [SerializeField] private GameObject damageNumber;
 
+    private AudioSource _moveAudioSource;
+    private AudioSource _selectAudioSource;
+    private AudioSource _denyAudioSource;
+    private AudioSource _attackAudioSource;
+
     //======== Consts 
     private const float TIME_BAR_LOWERING = 0.02f;
     private const float TIME_TILL_ENEMY_TURN = 1f;
@@ -50,6 +55,11 @@ public class BattleScript : MonoBehaviour
         
         SetUpBattle();
         _currentState = BattleStates.PlayerTurn;
+
+        _moveAudioSource = GameObject.Find("SFX").transform.Find("MovingSFX").GetComponent<AudioSource>();
+        _selectAudioSource = GameObject.Find("SFX").transform.Find("SelectSFX").GetComponent<AudioSource>();
+        _denyAudioSource = GameObject.Find("SFX").transform.Find("DenySFX").GetComponent<AudioSource>();
+        _attackAudioSource = GameObject.Find("SFX").transform.Find("AttackSFX").GetComponent<AudioSource>();
     }
 
     private void SetUpBattle()
@@ -139,12 +149,14 @@ public class BattleScript : MonoBehaviour
         {
             _baseIndex--;
             if (_baseIndex < 0) { _baseIndex = _uC.baseArrows.Length - 1; }
+            _moveAudioSource.Play();
             UpdateBaseArrows();
         }
         else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
         {
             _baseIndex++;
             if (_baseIndex == _uC.baseArrows.Length) { _baseIndex = 0; }
+            _moveAudioSource.Play();
             UpdateBaseArrows();
         }
         else if (Input.GetKeyDown(KeyCode.Space))
@@ -184,12 +196,14 @@ public class BattleScript : MonoBehaviour
         {
             _attackIndex--;
             if (_attackIndex < 0) { _attackIndex = _uC.attackArrows.Length - 1; }
+            _moveAudioSource.Play();
             UpdateAttackArrows();
         }
         else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
         {
             _attackIndex++;
             if (_attackIndex == (_uC.attackArrows).Length) { _attackIndex = 0; }
+            _moveAudioSource.Play();
             UpdateAttackArrows();
         }
         else if (Input.GetKeyDown(KeyCode.Space))
@@ -199,6 +213,7 @@ public class BattleScript : MonoBehaviour
                 _currentMenu = MenuState.Base;
                 _uC.attackTab.SetActive(false);
                 _attackIndex = 0;
+                _selectAudioSource.Play();
             }
             else 
             {
@@ -206,10 +221,11 @@ public class BattleScript : MonoBehaviour
                     _pC.playerUnit.currentMana >= _pC.playerUnit.attacks[_attackIndex].manaCost)
                 {
                     StartCoroutine(PlayerAttack());
+                    _selectAudioSource.Play();
                 }
                 else
                 {
-                    //TODO play negative SFX
+                    _denyAudioSource.Play();
                 }
             }
         }
@@ -240,7 +256,8 @@ public class BattleScript : MonoBehaviour
         StartCoroutine(LowerMagic());
         StartCoroutine(LowerEnemyHealth(damage));
         PlayerLoseControls();
-        yield return new WaitForSeconds(time);
+        _attackAudioSource.Play();
+            yield return new WaitForSeconds(time);
         if (_eC.enemyCurrentHealth <= 0)
         {
             yield return new WaitForSeconds(TIME_TILL_ENEMY_TURN / 2f);
@@ -302,12 +319,14 @@ public class BattleScript : MonoBehaviour
         {
             _itemIndex--;
             if (_itemIndex < 0) { _itemIndex = _uC.itemArrows.Length - 1; }
+            _moveAudioSource.Play();
             UpdateItemArrows();
         }
         else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
         {
             _itemIndex++;
             if (_itemIndex == (_uC.itemArrows).Length) { _itemIndex = 0; }
+            _moveAudioSource.Play();
             UpdateItemArrows();
         }
         else if (Input.GetKeyDown(KeyCode.Space))
@@ -318,6 +337,7 @@ public class BattleScript : MonoBehaviour
                 _uC.itemTab.SetActive(false);
                 _itemIndex = 0;
                 UpdateItemArrows();
+                _selectAudioSource.Play();
             }
             else 
             {
@@ -346,10 +366,11 @@ public class BattleScript : MonoBehaviour
                     _uC.itemTab.SetActive(false);
                     _itemIndex = 0;
                     UpdateItemArrows();
+                    _selectAudioSource.Play();
                 }
                 else
                 {
-                    //TODO play negative SFX
+                    _denyAudioSource.Play();
                 }   
             }
         }
