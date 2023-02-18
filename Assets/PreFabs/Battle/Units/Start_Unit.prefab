@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8772752969421899997
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3259841660659192881}
+  - component: {fileID: 1008978178988166899}
+  m_Layer: 0
+  m_Name: Start_Unit
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3259841660659192881
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8772752969421899997}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1008978178988166899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8772752969421899997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03a3d843d1c6fff4fb682adb1aff33c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Magellen
+  sprite: {fileID: 1871723826, guid: f03a5ab2a7f7832438311646b96e24c6, type: 3}
+  maxHealth: 15
+  currentHealth: 15
+  currentMana: 20
+  maxMana: 20
+  physicalDefense: 1
+  magicalDefense: 1
+  moneyDrop: 10
+  attacks:
+  - {fileID: 323581525886419684, guid: 75d3fef418a75ce4f8b2910d3de99267, type: 3}
+  isHuman: 1
+  enemyId: 0
+  lifeGoal: 0

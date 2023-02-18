@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8380100380468972826
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8380100380468972821}
+  - component: {fileID: 9033240313954330735}
+  m_Layer: 0
+  m_Name: Monster_Goblin_Rider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8380100380468972821
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8380100380468972826}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9033240313954330735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8380100380468972826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03a3d843d1c6fff4fb682adb1aff33c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Moe
+  sprite: {fileID: 937017883, guid: 59aa8ebdf90284640bd37f472f14f689, type: 3}
+  maxHealth: 35
+  currentHealth: 35
+  currentMana: 20
+  maxMana: 20
+  physicalDefense: 1
+  magicalDefense: 0
+  moneyDrop: 30
+  attacks:
+  - {fileID: 7605444459538370622, guid: f3897422ac703094685ded7590b53636, type: 3}
+  - {fileID: 2917309440250751867, guid: a163d389787e1e44f93d3ba34949a6c9, type: 3}
+  isHuman: 0
+  enemyId: 8
+  lifeGoal: 2

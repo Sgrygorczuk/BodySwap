@@ -98,7 +98,7 @@ public class BattleScript : MonoBehaviour
             {
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
-                    SceneManager.LoadScene("SampleScene");
+                    SceneManager.LoadScene("StartScene");
                 }
                 break;
             }
@@ -433,8 +433,8 @@ public class BattleScript : MonoBehaviour
         _eC.enemyImage.sprite = _pC.playerUnit.sprite;
         _pC.playerIcon.sprite = _eC.enemyUnit.sprite;
         UpdatePlayerData();
-        //_data.SetUnit(_unitsAndAttacksScript.unitsStats[_data.GetId()]);
-        _data.UpdateUnit(_eC.enemyUnit);
+        _data.SetUnit(_unitsAndAttacksScript.unitsStats[_data.GetId()]);
+        //_data.UpdateUnit(_eC.enemyUnit);
         yield return new WaitForSeconds(TIME_TILL_ENEMY_TURN);
         _battleAnimator.Play("EnemyFade"); 
         SetUpVictoryScreen(false);
