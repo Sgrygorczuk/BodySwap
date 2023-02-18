@@ -65,8 +65,8 @@ public class PlayerComponents : MonoBehaviour
         }
         
         //If the player has less than 4 attacks it fills out the rest of the list with blanks 
-        if (maxPlayerAttackIndex >= 4) return;
-        for(int i = maxPlayerAttackIndex; i < 4; i++)
+        if (maxPlayerAttackIndex >= 3) return;
+        for(int i = maxPlayerAttackIndex; i < 3; i++)
         {
             var path = "Attack_" + i;
             var attackName = GameObject.Find("Canvas").transform.Find("Attack_Player_Actions").transform.Find(path).transform.Find("Attack_Name").GetComponent<TextMeshProUGUI>();

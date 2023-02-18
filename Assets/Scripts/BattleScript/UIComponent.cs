@@ -10,7 +10,7 @@ public class UIComponent : MonoBehaviour
     [HideInInspector] public GameObject attackTab;
     [HideInInspector] public GameObject[] attackArrows = new GameObject[4];
     [HideInInspector] public GameObject itemTab;
-    [HideInInspector] public GameObject[] itemArrows = new GameObject[3];
+     public GameObject[] itemArrows = new GameObject[4];
     [HideInInspector] public TextMeshProUGUI[] itemText = new TextMeshProUGUI[3];
     [HideInInspector] public GameObject canvas;
     [HideInInspector] public GameObject victoryTab;

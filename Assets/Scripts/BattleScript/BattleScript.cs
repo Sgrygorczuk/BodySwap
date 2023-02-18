@@ -194,12 +194,23 @@ public class BattleScript : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (_attackIndex < _pC.maxPlayerAttackIndex && _pC.playerUnit.currentMana >= _pC.playerUnit.attacks[_attackIndex].manaCost){
-                StartCoroutine(PlayerAttack());
-            }
-            else
+            if (_attackIndex == _uC.attackArrows.Length - 1)
             {
-                //TODO play negative SFX
+                _currentMenu = MenuState.Base;
+                _uC.attackTab.SetActive(false);
+                _attackIndex = 0;
+            }
+            else 
+            {
+                if (_attackIndex < _pC.maxPlayerAttackIndex &&
+                    _pC.playerUnit.currentMana >= _pC.playerUnit.attacks[_attackIndex].manaCost)
+                {
+                    StartCoroutine(PlayerAttack());
+                }
+                else
+                {
+                    //TODO play negative SFX
+                }
             }
         }
         else if(Input.GetKeyDown(KeyCode.Escape))
@@ -301,35 +312,45 @@ public class BattleScript : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (_data.GetItem(_itemIndex) >= 1){
-                _data.SubItem(_itemIndex);
-                _uC.itemText[_itemIndex].text = _data.GetItem(_itemIndex).ToString();
-                switch (_itemIndex)
-                {
-                    case 0:
-                    {
-                        StartCoroutine(IncreasePlayerHealth());
-                        break;
-                    }
-                    case 1:
-                    {
-                        StartCoroutine(IncreaseMagic());
-                        break;
-                    }
-                    case 2:
-                    {
-                        StartCoroutine(SetUpEscapeScreen());
-                        break;
-                    }
-                }
+            if(_itemIndex ==  _uC.itemArrows.Length - 1)
+            {
                 _currentMenu = MenuState.Base;
                 _uC.itemTab.SetActive(false);
                 _itemIndex = 0;
                 UpdateItemArrows();
             }
-            else
+            else 
             {
-                //TODO play negative SFX
+                if (_data.GetItem(_itemIndex) >= 1){
+                    _data.SubItem(_itemIndex);
+                    _uC.itemText[_itemIndex].text = _data.GetItem(_itemIndex).ToString();
+                    switch (_itemIndex)
+                    {
+                        case 0:
+                        {
+                            StartCoroutine(IncreasePlayerHealth());
+                            break;
+                        }
+                        case 1:
+                        {
+                            StartCoroutine(IncreaseMagic());
+                            break;
+                        }
+                        case 2:
+                        {
+                            StartCoroutine(SetUpEscapeScreen());
+                            break;
+                        }
+                    }
+                    _currentMenu = MenuState.Base;
+                    _uC.itemTab.SetActive(false);
+                    _itemIndex = 0;
+                    UpdateItemArrows();
+                }
+                else
+                {
+                    //TODO play negative SFX
+                }   
             }
         }
         else if(Input.GetKeyDown(KeyCode.Escape))
