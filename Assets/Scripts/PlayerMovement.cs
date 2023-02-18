@@ -59,6 +59,13 @@ public class PlayerMovement : MonoBehaviour
         
         UpdateAnimation();
     }
+
+    public void UpdateMovementState(bool state)
+    {
+        _xVelocity = 0;
+        _yVelocity = 0;
+        canMove = state;
+    }
     
     //Checks which way the player is moving and updates the scale to turn the player 
     private void UpdateScale()

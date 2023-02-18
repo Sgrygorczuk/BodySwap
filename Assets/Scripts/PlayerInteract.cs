@@ -49,7 +49,7 @@ public class PlayerInteract : MonoBehaviour
                     _overWorldUI.enabled = false;
                     _talkUI.enabled = true;
                     _currentTalkState = TalkState.isTalking;
-                    _playerMovement.canMove = false;
+                    _playerMovement.UpdateMovementState(false);
                 }
                 break;
             }
@@ -60,7 +60,7 @@ public class PlayerInteract : MonoBehaviour
                     _overWorldUI.enabled = true;
                     _talkUI.enabled = false;
                     _currentTalkState = TalkState.canTalk;
-                    _playerMovement.canMove = true;
+                    _playerMovement.UpdateMovementState(true);
                 }
                 break;
             }
@@ -97,6 +97,7 @@ public class PlayerInteract : MonoBehaviour
         if (col.CompareTag(tag) && (col.CompareTag("Monster")) || col.CompareTag("Human"))
         {
             col.GetComponent<OWUnit>().SetIcon(false);
+            _currentTalkState = TalkState.noTalking;
 
         }
     }
