@@ -82,8 +82,8 @@ public class Data : MonoBehaviour
 
     public void ResetItems()
     {
-        _items[0] = 0;
-        _items[1] = 0;
+        _items[0] = 1;
+        _items[1] = 1;
         _items[2] = 1;
     }
 
