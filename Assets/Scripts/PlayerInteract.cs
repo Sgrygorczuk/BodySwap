@@ -90,7 +90,7 @@ public class PlayerInteract : MonoBehaviour
 
     IEnumerator killIntro()
     {
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(7.5f);
         _data._isIntroDone = true;
         Destroy(introBox);
     }

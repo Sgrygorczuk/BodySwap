@@ -46,5 +46,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackName: Magic Missle
   damage: 7
-  manaCost: 1
+  manaCost: 3
   isMagic: 1

@@ -45,6 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackName: Slash
-  damage: 15
+  damage: 14
   manaCost: 10
   isMagic: 0

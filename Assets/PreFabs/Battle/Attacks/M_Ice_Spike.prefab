@@ -45,6 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackName: Ice Spike
-  damage: 20
-  manaCost: 20
+  damage: 10
+  manaCost: 5
   isMagic: 1

@@ -45,6 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackName: Whirlwind
-  damage: 15
-  manaCost: 10
+  damage: 7
+  manaCost: 4
   isMagic: 0

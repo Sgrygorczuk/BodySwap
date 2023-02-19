@@ -45,6 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackName: Charge
-  damage: 22
-  manaCost: 30
+  damage: 7
+  manaCost: 4
   isMagic: 0

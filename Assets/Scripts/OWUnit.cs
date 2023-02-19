@@ -40,10 +40,10 @@ public class OWUnit : MonoBehaviour
     
     public IEnumerator Incapacitate()
     {
+        _boxCollider2Ds[1].enabled = false;
         yield return new WaitForSeconds(0.05f);
         _spriteRenderer.enabled = false;
         _boxCollider2Ds[0].enabled = false;
-        _boxCollider2Ds[1].enabled = false;
         //Wait for 2 min.
         yield return new WaitForSeconds(120);
         _spriteRenderer.enabled = true;

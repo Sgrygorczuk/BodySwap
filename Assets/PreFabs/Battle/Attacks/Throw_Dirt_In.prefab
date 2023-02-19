@@ -46,5 +46,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackName: Throw Dirt
   damage: 8
-  manaCost: 2
+  manaCost: 4
   isMagic: 1
