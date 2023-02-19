@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -15,19 +16,24 @@ public class PlayerInteract : MonoBehaviour
     private OverworldShopUI _overworldShopUI;
 
     private GameObject introBox;
-    
+    private GameObject winBox;
+    private GameObject blackBox;
+    private TextMeshProUGUI _endText;
+
+
     private PlayerMovement _playerMovement;
 
     private AudioSource _talkAudioSource;
     private AudioSource _fightAudioSource;
     private AudioSource _shopAudioSource;
     private AudioSource _moveAudioSource;
-    private AudioSource _selectAudioSource; 
+    private AudioSource _selectAudioSource;
     private AudioSource _denyAudioSource;
-
+    
     private int _itemIndex = 0;
     public GameObject[] itemArrows = new GameObject[4];
     private int[] itemCosts = new[] { 5, 2, 10 };
+
     private enum TalkState
     {
         noTalking,
@@ -38,16 +44,16 @@ public class PlayerInteract : MonoBehaviour
     }
 
     private TalkState _currentTalkState = TalkState.noTalking;
-    
+
     // Start is called before the first frame update
     void Start()
     {
         _data = GameObject.Find("Data").GetComponent<Data>();
         transform.position = _data.GetPosition();
-        
+
         _overWorldUICavnas = GameObject.Find("Overworld_Canvas").GetComponent<Canvas>();
         _overworldUI = GameObject.Find("Overworld_Canvas").GetComponent<OverworldUI>();
-        
+
         introBox = GameObject.Find("Overworld_Canvas").transform.Find("GameTips").gameObject;
         if (_data._isIntroDone)
         {
@@ -57,7 +63,7 @@ public class PlayerInteract : MonoBehaviour
         {
             StartCoroutine(killIntro());
         }
-        
+
         _talkUI = GameObject.Find("Talk_Canvas").GetComponent<Canvas>();
         _talkUIScript = GameObject.Find("Talk_Canvas").GetComponent<OverworldTalk>();
         _talkUI.enabled = false;
@@ -78,19 +84,45 @@ public class PlayerInteract : MonoBehaviour
             var arrow = GameObject.Find("Shop_Canvas").transform.Find("Shop").Find(path).gameObject;
             itemArrows[i] = arrow;
         }
-        
+
         _playerMovement = GetComponent<PlayerMovement>();
-        
+
         if (_data._enemyParentPath != "")
         {
-            var owUnit = GameObject.Find(_data._enemyParentPath).transform.Find(_data._enemyPath).GetComponent<OWUnit>();
+            var owUnit = GameObject.Find(_data._enemyParentPath).transform.Find(_data._enemyPath)
+                .GetComponent<OWUnit>();
             StartCoroutine(owUnit.Incapacitate());
         }
+
+        winBox = GameObject.Find("Overworld_Canvas").transform.Find("GameWon").gameObject;
+        winBox.SetActive(false);
+        
+        blackBox = GameObject.Find("Overworld_Canvas").transform.Find("GameWonBlack").gameObject;
+        blackBox.SetActive(false);
+        _endText = GameObject.Find("Overworld_Canvas").transform.Find("GameWonBlack").transform.Find("EndText")
+            .GetComponent<TextMeshProUGUI>();
+        
+        if (_data.GetIsGoalCompleted())
+        {
+            StartCoroutine(WonGame());
+        }
+    }
+
+    IEnumerator WonGame()
+    {
+        _playerMovement.canMove = false;
+        winBox.SetActive(true);
+        yield return new WaitForSeconds(5f);
+        winBox.SetActive(false);
+        _endText.text = _data.GetStory();
+        blackBox.SetActive(true);
+        yield return new WaitForSeconds(30f);
+        SceneManager.LoadScene("MainMenu");
     }
 
     IEnumerator killIntro()
     {
-        yield return new WaitForSeconds(7.5f);
+        yield return new WaitForSeconds(5f);
         _data._isIntroDone = true;
         Destroy(introBox);
     }

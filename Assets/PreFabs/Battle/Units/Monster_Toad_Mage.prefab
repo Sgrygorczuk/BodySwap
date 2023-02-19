@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03a3d843d1c6fff4fb682adb1aff33c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: Aiden
+  unitName: 
   sprite: {fileID: 1319603257, guid: e753f4f7c430aea40b6faf8c275d8bf8, type: 3}
   maxHealth: 20
   currentHealth: 20
@@ -59,4 +59,4 @@ MonoBehaviour:
   - {fileID: 3073414804893864900, guid: 217c6e4f194552048b8fa5c113bb1d2c, type: 3}
   isHuman: 0
   enemyId: 11
-  lifeGoal: 8
+  lifeGoal: 5

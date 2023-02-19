@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03a3d843d1c6fff4fb682adb1aff33c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: Gerry
+  unitName: 
   sprite: {fileID: -988901159, guid: b08aa260133a1ba408c96ba70589d1a2, type: 3}
   maxHealth: 15
   currentHealth: 15
@@ -59,4 +59,4 @@ MonoBehaviour:
   - {fileID: 2361265354504227234, guid: cc63fe707ba8ca9428b9b4dbfa466a5a, type: 3}
   isHuman: 0
   enemyId: 7
-  lifeGoal: 10
+  lifeGoal: 5

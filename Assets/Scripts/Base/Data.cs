@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Base;
 using UnityEngine;
 
@@ -17,6 +18,9 @@ public class Data : MonoBehaviour
     public string _enemyPath = "";
     public bool _isIntroDone;
 
+    private string _story = "Your journey began:";
+    private bool checkIfPlayerIsDone;
+
     private string[] _goalText = new[]
     {
         "Explore unknown lands: ", //1
@@ -34,7 +38,7 @@ public class Data : MonoBehaviour
         "", //1
     };
 
-    [SerializeField] private int[] _goal =  new [] {1, 5, 5, 150, 1, 10, 4, 6, 1, 10, 1, 1, 1 };
+    [SerializeField] private int[] _goal =  new [] {1, 5, 5, 150, 1, 10, 4, 12, 1, 10, 1, 1, 1 };
     [SerializeField] private int _currentGoalScore = 0;
 
 //==================================================================================================================
@@ -110,6 +114,16 @@ public class Data : MonoBehaviour
         return _goalsCompleted[(int) player.lifeGoal];
     }
 
+    public int GetCurrentGoal()
+    {
+        return _currentGoalScore;
+    }
+
+    public int GetLifeGoal()
+    {
+        return (int) player.lifeGoal;
+    }
+
     public void UpdateGoal(int add)
     {
         _currentGoalScore += add;
@@ -129,6 +143,26 @@ public class Data : MonoBehaviour
     {
         _enemyParentPath = parent;
         _enemyPath = enemy;
+    }
+
+    public void AddToStory(string bit)
+    {
+        _story += "\n" + bit;
+    }
+
+    public string GetStory()
+    {
+        return _story;
+    }
+
+    public void SetPlayerDone(bool done)
+    {
+        checkIfPlayerIsDone = done;
+    }
+
+    public bool GetPlayerDone()
+    {
+        return checkIfPlayerIsDone;
     }
 
 }

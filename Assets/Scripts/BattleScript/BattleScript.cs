@@ -465,7 +465,11 @@ public class BattleScript : MonoBehaviour
 
     private IEnumerator WinAction()
     {
-        _battleAnimator.Play("EnemyFade"); 
+        _battleAnimator.Play("EnemyFade");
+        if (_data.GetLifeGoal() == 1 || _data.GetLifeGoal() == 2)
+        {
+            _data.UpdateGoal(1);
+        }
         yield return new WaitForSeconds(TIME_TILL_ENEMY_TURN * 2);
         SetUpVictoryScreen(true);
         _data.SetUnit(_pC.playerUnit);
@@ -476,6 +480,7 @@ public class BattleScript : MonoBehaviour
     private IEnumerator LoseAction()
     {
         _battleAnimator.Play("Swap");
+        _data.ResetGoalState();
         yield return new WaitForSeconds(0.25f);
         SetUpVictoryScreen(false);
         _eC.enemyImage.sprite = _pC.playerUnit.sprite;
@@ -507,11 +512,25 @@ public class BattleScript : MonoBehaviour
         {
             _uC.defeated.text = "You have defeated " + _eC.enemyUnit.unitName + " may they rest in peace.";
             _uC.gold.text = "You gather " +  _eC.enemyUnit.moneyDrop + " gold pieces.";
+            if (_data.GetLifeGoal() == 3)
+            {
+                _data.UpdateGoal(_eC.enemyUnit.moneyDrop);
+            }
+            _data.AddToStory(_pC.playerUnit.unitName + " have defeated " + _eC.enemyUnit.unitName + " may they rest in peace.");
+            if (_data.GetIsGoalCompleted())
+            {
+                _data.AddToStory(_pC.playerUnit.unitName + " completed their life goal of: " + _data.GetGoalText());
+                _data.SetPlayerDone(true);
+            }
         }
         else
         {
             _uC.defeated.text = "You have defeated " + _pC.playerUnit.unitName + " may they rest in peace.";
-            _uC.gold.text = "You gather " +  _data.GetMoney() + " gold pieces.";   
+            _uC.gold.text = "You gather " +  _data.GetMoney() + " gold pieces.";
+            if (!_data.GetIsGoalCompleted())
+            {
+                _data.AddToStory(_pC.playerUnit.unitName + " failed their life goal of: " + _data.GetGoalText());
+            }
         }
         _uC.victoryTab.SetActive(true);
         if (playerWon) { _data.AddMoney(_eC.enemyUnit.moneyDrop); }
@@ -520,6 +539,16 @@ public class BattleScript : MonoBehaviour
     private IEnumerator SetUpEscapeScreen()
     {
         _uC.defeated.text = "You have escaped from " + _eC.enemyUnit.unitName + " in a cloud of smoke.";
+        _data.AddToStory(_pC.playerUnit.unitName + " escaped from " + _eC.enemyUnit.unitName + ".");
+        if (_data.GetLifeGoal() == 6)
+        {
+            _data.UpdateGoal(1);
+        }
+        if (_data.GetIsGoalCompleted())
+        {
+            _data.AddToStory(_pC.playerUnit.unitName + " completed their life goal of: " + _data.GetGoalText());
+            _data.SetPlayerDone(true);
+        }
         _uC.gold.text = "You get to live another day.";
         yield return new WaitForSeconds(TIME_TILL_ENEMY_TURN);
         _currentState = BattleStates.End;

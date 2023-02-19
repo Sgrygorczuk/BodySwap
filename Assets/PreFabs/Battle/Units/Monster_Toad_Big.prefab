@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03a3d843d1c6fff4fb682adb1aff33c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: Curk
+  unitName: 
   sprite: {fileID: -255159116, guid: 461d01f8c37c6334cb2a36d76f80e4be, type: 3}
   maxHealth: 40
   currentHealth: 40
@@ -59,4 +59,4 @@ MonoBehaviour:
   - {fileID: 2917309440250751867, guid: a163d389787e1e44f93d3ba34949a6c9, type: 3}
   isHuman: 0
   enemyId: 10
-  lifeGoal: 12
+  lifeGoal: 2
