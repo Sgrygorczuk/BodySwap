@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,6 +13,8 @@ public class PlayerInteract : MonoBehaviour
     private OverworldTalk _talkUIScript;
     private Canvas _shopUI;
     private OverworldShopUI _overworldShopUI;
+
+    private GameObject introBox;
     
     private PlayerMovement _playerMovement;
 
@@ -45,6 +48,16 @@ public class PlayerInteract : MonoBehaviour
         _overWorldUICavnas = GameObject.Find("Overworld_Canvas").GetComponent<Canvas>();
         _overworldUI = GameObject.Find("Overworld_Canvas").GetComponent<OverworldUI>();
         
+        introBox = GameObject.Find("Overworld_Canvas").transform.Find("GameTips").gameObject;
+        if (_data._isIntroDone)
+        {
+            Destroy(introBox);
+        }
+        else
+        {
+            StartCoroutine(killIntro());
+        }
+        
         _talkUI = GameObject.Find("Talk_Canvas").GetComponent<Canvas>();
         _talkUIScript = GameObject.Find("Talk_Canvas").GetComponent<OverworldTalk>();
         _talkUI.enabled = false;
@@ -73,6 +86,13 @@ public class PlayerInteract : MonoBehaviour
             var owUnit = GameObject.Find(_data._enemyParentPath).transform.Find(_data._enemyPath).GetComponent<OWUnit>();
             StartCoroutine(owUnit.Incapacitate());
         }
+    }
+
+    IEnumerator killIntro()
+    {
+        yield return new WaitForSeconds(5);
+        _data._isIntroDone = true;
+        Destroy(introBox);
     }
 
     private void Update()

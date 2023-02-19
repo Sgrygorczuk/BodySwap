@@ -15,6 +15,7 @@ public class Data : MonoBehaviour
     private Vector2 _playerPosition = Vector2.zero;
     public string _enemyParentPath = "";
     public string _enemyPath = "";
+    public bool _isIntroDone;
 
     private string[] _goalText = new[]
     {

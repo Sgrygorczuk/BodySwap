@@ -8,6 +8,7 @@ public class MenuScript : MonoBehaviour
     private int _index;
     private SpriteRenderer _blackSquare;
     private TextMeshPro _quote;
+    private TextMeshPro _credits;
     public SpriteRenderer[] _points = new SpriteRenderer[2];
 
     public bool canMove = true;
@@ -20,6 +21,9 @@ public class MenuScript : MonoBehaviour
 
         _quote = GameObject.Find("Quote").GetComponent<TextMeshPro>();
         _quote.enabled = false;
+        
+        _credits = GameObject.Find("Credits").GetComponent<TextMeshPro>();
+        _credits.enabled = false;
 
         _points[0].enabled = true;
         _points[1].enabled = false;
@@ -53,6 +57,7 @@ public class MenuScript : MonoBehaviour
             }
             else if (Input.GetKeyDown(KeyCode.Space) && _index == 1)
             {
+                StartCoroutine(Credits());
                 canMove = false;
             }   
         }
@@ -66,6 +71,16 @@ public class MenuScript : MonoBehaviour
         _quote.enabled = false;
         yield return new WaitForSeconds(0.5f);
         SceneManager.LoadScene("StartScene");
+    }
+    
+    private IEnumerator Credits()
+    {
+        _credits.enabled = true;
+        _blackSquare.enabled = true;
+        yield return new WaitForSeconds(5f);
+        _credits.enabled = false;
+        _blackSquare.enabled = false;
+        canMove = true;
     }
 
     void UpdatePoints()
