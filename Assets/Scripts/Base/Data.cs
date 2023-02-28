@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using Base;
 using UnityEngine;
 
@@ -63,6 +61,11 @@ public class Data : MonoBehaviour
     // Data Update Methods 
     //==================================================================================================================
 
+    public void Reset()
+    {
+        
+    }
+    
     public void SetId(int id) { _enemyId = id; }
     public int GetId() { return _enemyId; }
 
