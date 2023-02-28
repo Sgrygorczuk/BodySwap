@@ -47,15 +47,13 @@ MonoBehaviour:
   unitName: 
   sprite: {fileID: 937017883, guid: 59aa8ebdf90284640bd37f472f14f689, type: 3}
   maxHealth: 35
+  maxMana: 20
   currentHealth: 35
   currentMana: 20
-  maxMana: 20
-  physicalDefense: 1
-  magicalDefense: 0
   moneyDrop: 30
   attacks:
   - {fileID: 7605444459538370622, guid: f3897422ac703094685ded7590b53636, type: 3}
   - {fileID: 2917309440250751867, guid: a163d389787e1e44f93d3ba34949a6c9, type: 3}
   isHuman: 0
   enemyId: 8
-  lifeGoal: 2
+  lifeGoal: 1

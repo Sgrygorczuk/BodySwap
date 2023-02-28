@@ -1,3 +1,4 @@
+using Base;
 using UnityEngine;
 
 /// <summary>
@@ -7,9 +8,6 @@ using UnityEngine;
 
 public class MenuScript : CutSceneScript
 {
-    //The data game object 
-    private Data _data;
-
     //==================================================================================================================
     // Base Functions 
     //================================================================================================================== 
@@ -20,9 +18,11 @@ public class MenuScript : CutSceneScript
     protected override void Start()
     {
         base.Start();
-        
-        _data = GameObject.Find("Data").transform.GetComponent<Data>();
-        _data.Reset();
+
+        //Gets the Start Unit Data and copies it into the Data for a reset 
+        var player = GameObject.Find("Controls").transform.Find("Start_Unit").GetComponent<Unit>();
+        var data = GameObject.Find("Data").transform.GetComponent<Data>();
+        data.ResetData(player);
     }
     
 }

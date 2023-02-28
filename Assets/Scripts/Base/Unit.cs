@@ -3,39 +3,55 @@ using UnityEngine;
 
 namespace Base
 {
+    /// <summary>
+    /// This Script is used in PreFabs of Units that will be fighting the player and used by the player 
+    /// </summary>
     public class Unit : MonoBehaviour
     {
+        //==== UI 
+        //Units Name and Sprite 
         public string unitName = "";
         public Sprite sprite;
-        [Range(15,45)] public int maxHealth = 15;
-        [Range(15,45)] public int currentHealth = 15;
-        [Range(15,45)] public int currentMana = 15;
-        [Range(15,45)] public int maxMana = 15;
-        [Range(0,1)] public float physicalDefense = 1;
-        [Range(0,1)] public float magicalDefense= 1;
+        
+        //==== Combat Stats 
+        //Max Health and Mana
+        [Range(10,45)] public int maxHealth = 15;
+        [Range(10,45)] public int maxMana = 15;
+        //Current Health and Mana
+        [Range(10,45)] public int currentHealth = 15;
+        [Range(10,45)] public int currentMana = 15;
+        //How much money they drop on death 
         [Range(5,40)]public int moneyDrop = 10;
-        public List<Attacks> attacks = new List<Attacks>();
+        //List of attacks that is available to the Unit 
+        public List<Attacks> attacks = new();
+        
+        //==== Identification
+        //Tells us if it's a human or monster 
         public bool isHuman;
-        public int enemyId = 0;
-        [HideInInspector] public enum LifeGoals
+        //Tells us which Unit data to pull into Battle Scene 
+        public int enemyId;
+
+        //======= Goals 
+        //List of possible goals 
+        public enum LifeGoals
         {
             ExploreUnknown = 0,     //Boy
             BeatMonsters = 1,       //Human Viking 
             BeatHumans = 2,         //Goblin Boss
             CollectGold = 3,        //Goblin 
-            MountAlena = 4,         //Human Deerman
-            Chatter = 5,            //Toad 
-            Escape = 6,             //Human Shooter 
-            Spender = 7,            //Human Bringan 
-            LakeVando = 8,          //Toad Mage
-            TrashPicker = 9,        //Human Graverobber 
-            Sage = 10,               //Goblin Mage
-            B = 11,                  //Human Axman
-            C = 12,                  //Toad Big
+            Escape = 4,             //Human Shooter 
         }
-
+        //The goal that the Unit works towards 
         public LifeGoals lifeGoal;
+        
+        //==================================================================================================================
+        // Base Functions 
+        //==================================================================================================================
 
+        /// <summary>
+        /// Used by player to copy the data when switching characters 
+        /// </summary>
+        /// <param name="unit"></param>
         public void Copy(Unit unit)
         {
             unitName = unit.unitName;
@@ -50,9 +66,13 @@ namespace Base
             tag = unit.tag;
         }
         
-        public void SetName(string name)
+        /// <summary>
+        /// Used to update the players name 
+        /// </summary>
+        /// <param name="nameCopy"></param>
+        public void SetName(string nameCopy)
         {
-            this.unitName = name;
+            unitName = nameCopy;
         }
     
     }

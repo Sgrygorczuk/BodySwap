@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Base;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -55,7 +56,7 @@ public class PlayerInteract : MonoBehaviour
         _overworldUI = GameObject.Find("Overworld_Canvas").GetComponent<OverworldUI>();
 
         introBox = GameObject.Find("Overworld_Canvas").transform.Find("GameTips").gameObject;
-        if (_data._isIntroDone)
+        if (_data.isIntroDone)
         {
             Destroy(introBox);
         }
@@ -87,9 +88,9 @@ public class PlayerInteract : MonoBehaviour
 
         _playerMovement = GetComponent<PlayerMovement>();
 
-        if (_data._enemyParentPath != "")
+        if (_data.enemyParentPath != "")
         {
-            var owUnit = GameObject.Find(_data._enemyParentPath).transform.Find(_data._enemyPath)
+            var owUnit = GameObject.Find(_data.enemyParentPath).transform.Find(_data.enemyPath)
                 .GetComponent<OWUnit>();
             StartCoroutine(owUnit.Incapacitate());
         }
@@ -123,7 +124,7 @@ public class PlayerInteract : MonoBehaviour
     IEnumerator killIntro()
     {
         yield return new WaitForSeconds(5f);
-        _data._isIntroDone = true;
+        _data.isIntroDone = true;
         Destroy(introBox);
     }
 

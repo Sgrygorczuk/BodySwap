@@ -1,11 +1,12 @@
 using UnityEngine;
 
-public class DamageNumber : MonoBehaviour
+namespace Base
 {
-    // Start is called before the first frame update
-    void Start()
+    /// <summary>
+    /// This Script is used on the damage numbers, it destroys the object after 2 seconds of it existing 
+    /// </summary>
+    public class DamageNumber : MonoBehaviour
     {
-        Destroy(gameObject, 2.0f);
+        private void Start() { Destroy(gameObject, 2.0f); }
     }
-    
 }

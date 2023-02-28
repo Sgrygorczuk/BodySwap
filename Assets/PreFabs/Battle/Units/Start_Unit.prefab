@@ -47,11 +47,9 @@ MonoBehaviour:
   unitName: Magellen
   sprite: {fileID: 1871723826, guid: f03a5ab2a7f7832438311646b96e24c6, type: 3}
   maxHealth: 15
+  maxMana: 15
   currentHealth: 15
   currentMana: 15
-  maxMana: 15
-  physicalDefense: 1
-  magicalDefense: 1
   moneyDrop: 20
   attacks:
   - {fileID: 323581525886419684, guid: 75d3fef418a75ce4f8b2910d3de99267, type: 3}

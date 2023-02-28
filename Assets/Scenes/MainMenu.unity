@@ -177,6 +177,68 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!1001 &246007943
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1287737767}
+    m_Modifications:
+    - target: {fileID: 3259841660659192881, guid: 840519b1654d99c488756887fe5c84bc, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3259841660659192881, guid: 840519b1654d99c488756887fe5c84bc, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3259841660659192881, guid: 840519b1654d99c488756887fe5c84bc, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3259841660659192881, guid: 840519b1654d99c488756887fe5c84bc, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3259841660659192881, guid: 840519b1654d99c488756887fe5c84bc, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3259841660659192881, guid: 840519b1654d99c488756887fe5c84bc, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3259841660659192881, guid: 840519b1654d99c488756887fe5c84bc, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3259841660659192881, guid: 840519b1654d99c488756887fe5c84bc, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3259841660659192881, guid: 840519b1654d99c488756887fe5c84bc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3259841660659192881, guid: 840519b1654d99c488756887fe5c84bc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3259841660659192881, guid: 840519b1654d99c488756887fe5c84bc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8772752969421899997, guid: 840519b1654d99c488756887fe5c84bc, type: 3}
+      propertyPath: m_Name
+      value: Start_Unit
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 840519b1654d99c488756887fe5c84bc, type: 3}
+--- !u!4 &246007944 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3259841660659192881, guid: 840519b1654d99c488756887fe5c84bc, type: 3}
+  m_PrefabInstance: {fileID: 246007943}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &478398680
 GameObject:
   m_ObjectHideFlags: 0
@@ -375,12 +437,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1483617141}
-  _goalsCompleted: 00000000000000000000000000
-  _enemyParentPath: 
-  _enemyPath: 
-  _isIntroDone: 0
-  _goal: 01000000050000000500000096000000010000000a0000000400000006000000010000000a000000010000000100000001000000
-  _currentGoalScore: 0
+  enemyParentPath: 
+  enemyPath: 
+  isIntroDone: 0
+  goal: 01000000050000000500000041000000
+  currentGoalScore: 0
+  goalsCompleted: 00000000
 --- !u!4 &638499533
 Transform:
   m_ObjectHideFlags: 0
@@ -651,7 +713,7 @@ GameObject:
   - component: {fileID: 1287737767}
   - component: {fileID: 1287737768}
   m_Layer: 0
-  m_Name: 'Controls '
+  m_Name: Controls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -668,7 +730,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 246007944}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

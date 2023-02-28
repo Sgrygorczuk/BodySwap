@@ -47,11 +47,9 @@ MonoBehaviour:
   unitName: 
   sprite: {fileID: -1800896904, guid: 4e4a0b956fac0d64690df8e37dc66df2, type: 3}
   maxHealth: 35
+  maxMana: 15
   currentHealth: 35
   currentMana: 15
-  maxMana: 15
-  physicalDefense: 1
-  magicalDefense: 1
   moneyDrop: 15
   attacks:
   - {fileID: 323581525886419684, guid: 75d3fef418a75ce4f8b2910d3de99267, type: 3}
