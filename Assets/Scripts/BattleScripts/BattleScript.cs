@@ -10,6 +10,10 @@ using Random = UnityEngine.Random;
 
 namespace BattleScripts
 {
+    /// <summary>
+    /// The Script that controls the game play during battle scene 
+    /// </summary>
+    
     public class BattleScript : MonoBehaviour
     {
         //======== Data
@@ -25,13 +29,16 @@ namespace BattleScripts
             End
         }
         private BattleStates _currentState = BattleStates.Start;
-    
+        
+        //Keeps track of if it's enemy's turn to act 
+        private bool _enemyTurn;
+
         //======== Set Up
         private EnemyComponents _eC; //Enemy Visual Components and Controls 
         private PlayerComponents _pC; //Player Visual Components and Controls 
         private UIComponent _uC; //UI Visual Components and Controls 
 
-        //======== Controls
+        //======== Player Actions State Machine 
         private enum MenuState
         {
             Base,
@@ -39,42 +46,58 @@ namespace BattleScripts
             Item
         }
         private MenuState _currentMenu = MenuState.Base;
-    
+        
+        //============= Arrow Indexes  
     
         private int _baseIndex;       //Which base option is the player looking at 
         private int _attackIndex;     //Which attack is the player looking at
         private int _itemIndex;
-        private bool _enemyTurn;
-        private Animator _battleAnimator;
-        [SerializeField] private GameObject damageNumber;
 
+        [SerializeField] private GameObject damageNumber;
         private int _barSlider = 0;
 
+        //======== SFX 
         private AudioSource _moveAudioSource;
         private AudioSource _selectAudioSource;
         private AudioSource _denyAudioSource;
         private AudioSource _attackAudioSource;
 
-        //======== Consts 
+        //======== Timers 
         private const float TimeBarLowering = 0.035f;
         private const float TimeEnemyThinkTime = 2f;
         private const float TimeTillEnemyTurn = 1f;
+        private const float TimePlayerHurt = 1.5f;
 
-        private const float TimePlayerHurt = 2f; 
-        
-        // Start is called before the first frame update
+        //======= Animators 
+        private Animator _animator;
+        private Animator _battleAnimator;
+
+        //==================================================================================================================
+        // Base Methods 
+        //==================================================================================================================
+
+        /// <summary>
+        /// Connects to the animation and plays the intro fade in 
+        /// </summary>
+        private void Awake()
+        {
+            _animator = GameObject.Find("Transition").GetComponent<Animator>();
+            _animator.Play("BattleSceneStart");
+        }
+
+        /// <summary>
+        /// Ran at the start of the game 
+        /// </summary>
         private void Start()
         {
         
             SetUpBattle();
             _currentState = BattleStates.PlayerTurn;
-
-            _moveAudioSource = GameObject.Find("SFX").transform.Find("MovingSFX").GetComponent<AudioSource>();
-            _selectAudioSource = GameObject.Find("SFX").transform.Find("SelectSFX").GetComponent<AudioSource>();
-            _denyAudioSource = GameObject.Find("SFX").transform.Find("DenySFX").GetComponent<AudioSource>();
-            _attackAudioSource = GameObject.Find("SFX").transform.Find("AttackSFX").GetComponent<AudioSource>();
         }
 
+        /// <summary>
+        /// Connects all of the game objects so we can update them throughout the game 
+        /// </summary>
         private void SetUpBattle()
         {
             _data = GameObject.Find("Data").GetComponent<Data>();
@@ -93,12 +116,22 @@ namespace BattleScripts
             _uC.itemText[2].text = _data.GetItem(2).ToString();
 
             _battleAnimator = GameObject.Find("Canvas").GetComponent<Animator>();
+            
+            //Connect Audio 
+            _moveAudioSource = GameObject.Find("SFX").transform.Find("MovingSFX").GetComponent<AudioSource>();
+            _selectAudioSource = GameObject.Find("SFX").transform.Find("SelectSFX").GetComponent<AudioSource>();
+            _denyAudioSource = GameObject.Find("SFX").transform.Find("DenySFX").GetComponent<AudioSource>();
+            _attackAudioSource = GameObject.Find("SFX").transform.Find("AttackSFX").GetComponent<AudioSource>();
         }
 
         //==================================================================================================================
         // Game State Methods 
         //==================================================================================================================
     
+        /// <summary>
+        /// Controls the state and action of the game 
+        /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         private void Update()
         {
             switch (_currentState)
@@ -121,7 +154,7 @@ namespace BattleScripts
                 {
                     if (Input.GetKeyDown(KeyCode.Space))
                     {
-                        SceneManager.LoadScene("StartScene");
+                        StartCoroutine(LoadToLevel());
                     }
                     break;
                 }
@@ -131,12 +164,27 @@ namespace BattleScripts
                     throw new ArgumentOutOfRangeException();
             }
         }
+
+        /// <summary>
+        /// Starts the exit animation, once it;s done loads into the level 
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerator LoadToLevel()
+        {
+            _animator.Play("BattleSceneEnd");
+            yield return new WaitForSeconds(2.1f);
+            SceneManager.LoadScene("StartScene");
+        }
     
     
         //==================================================================================================================
         //Player Actions 
         //==================================================================================================================
 
+        /// <summary>
+        /// Allows the player to perform actions when it's their turn 
+        /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         private void PlayerActions()
         {
             switch (_currentMenu)
@@ -544,96 +592,147 @@ namespace BattleScripts
         //End Actions 
         //==================================================================================================================
 
+        /// <summary>
+        /// Steps of updating game when player won 
+        /// </summary>
+        /// <returns></returns>
         private IEnumerator WinAction()
         {
+            //Start Enemy Death Animation  
             _battleAnimator.Play("EnemyFade");
-            if (_data.GetLifeGoal() == 1 || _data.GetLifeGoal() == 2)
-            {
-                _data.UpdateGoal(1);
-            }
             yield return new WaitForSeconds(TimeTillEnemyTurn * 2);
+            //Set up Pop Up and update player Data 
             SetUpVictoryScreen(true);
             _data.SetUnit(_pC.playerUnit);
             yield return new WaitForSeconds(TimeTillEnemyTurn);
+            //Lead to moving to different screen 
             _currentState = BattleStates.End;
         }
 
+        /// <summary>
+        /// Steps of updating the game when the player lost 
+        /// </summary>
+        /// <returns></returns>
         private IEnumerator LoseAction()
         {
             _battleAnimator.Play("Swap");
-            _data.ResetGoalState();
             yield return new WaitForSeconds(0.25f);
             SetUpVictoryScreen(false);
-            _eC.enemyImage.sprite = _pC.playerUnit.sprite;
-            _pC.playerIcon.sprite = _eC.enemyUnit.sprite;
             UpdatePlayerData();
-            _eC.enemyUnit.currentHealth = _eC.enemyCurrentHealth;
-            _data.SetUnit(_eC.enemyUnit);
-            _data.ResetItems();
             yield return new WaitForSeconds(TimeTillEnemyTurn);
             _battleAnimator.Play("EnemyFade");
             yield return new WaitForSeconds(TimeTillEnemyTurn);
             _currentState = BattleStates.End;
         }
     
+        /// <summary>
+        /// Updates the visuals and passes the enemy data into the player 
+        /// </summary>
         private void UpdatePlayerData()
         {
+            //Flips the sprites 
+            _eC.enemyImage.sprite = _pC.playerUnit.sprite;
+            _pC.playerIcon.sprite = _eC.enemyUnit.sprite;
+            
+            //Flips the data 
             _pC.playerNameText.text = _eC.enemyUnit.unitName;
             _pC.playerHealthImage.fillAmount = (float) _eC.enemyCurrentHealth / _eC.enemyUnit.maxHealth;
             _eC.enemyHealthImage.fillAmount = (float) _pC.playerUnit.currentHealth / _pC.playerUnit.maxHealth;
             _pC.playerManaImage.fillAmount =  (float) _eC.enemyUnit.currentMana / _eC.enemyUnit.currentMana;
             _pC.playerHealthText.text = _eC.enemyCurrentHealth + "/" + _eC.enemyUnit.maxHealth;
             _pC.playerManaText.text = _eC.enemyUnit.currentMana+ "/" + _eC.enemyUnit.currentMana;
-
+            
+            _eC.enemyUnit.currentHealth = _eC.enemyCurrentHealth;
+            
+            //Updates the player data, resets goal, give player enemy's stats and reset item counts. 
+            _data.ResetGoalState();
+            _data.SetUnit(_eC.enemyUnit);
+            _data.ResetItems();
         }
 
+        /// <summary>
+        /// Sets up the pop up screen when thep layer won 
+        /// </summary>
+        /// <param name="playerWon"></param>
         private void SetUpVictoryScreen(bool playerWon)
         {
+            UpdatePopUpText(false);
+            AddToStory();
             if (playerWon)
             {
-                _uC.defeated.text = "You have defeated " + _eC.enemyUnit.unitName + " may they rest in peace.";
-                _uC.gold.text = "You gather " +  _eC.enemyUnit.moneyDrop + " gold pieces.";
-                if (_data.GetLifeGoal() == 3)
-                {
-                    _data.UpdateGoal(_eC.enemyUnit.moneyDrop);
-                }
+                CheckGoalUpdate();
                 _data.AddToStory(_pC.playerUnit.unitName + " have defeated " + _eC.enemyUnit.unitName + " may they rest in peace.");
-                if (_data.GetIsGoalCompleted())
-                {
-                    _data.AddToStory(_pC.playerUnit.unitName + " completed their life goal of: " + _data.GetGoalText());
-                    _data.SetPlayerDone(true);
-                }
-            }
-            else
-            {
-                _uC.defeated.text = "You have defeated " + _pC.playerUnit.unitName + " may they rest in peace.";
-                _uC.gold.text = "You gather " +  _data.GetMoney() + " gold pieces.";
-                if (!_data.GetIsGoalCompleted())
-                {
-                    _data.AddToStory(_pC.playerUnit.unitName + " failed their life goal of: " + _data.GetGoalText());
-                }
             }
             _uC.victoryTab.SetActive(true);
             if (playerWon) { _data.AddMoney(_eC.enemyUnit.moneyDrop); }
         }
     
+        /// <summary>
+        /// Sets up the pop up screen for when the player escapes 
+        /// </summary>
+        /// <returns></returns>
         private IEnumerator SetUpEscapeScreen()
         {
-            _uC.defeated.text = "You have escaped from " + _eC.enemyUnit.unitName + " in a cloud of smoke.";
             _data.AddToStory(_pC.playerUnit.unitName + " escaped from " + _eC.enemyUnit.unitName + ".");
-            if (_data.GetLifeGoal() == 6)
+            CheckGoalUpdate();
+            UpdatePopUpText(true);
+            AddToStory();
+            yield return new WaitForSeconds(TimeTillEnemyTurn);
+            _currentState = BattleStates.End;
+            _uC.victoryTab.SetActive(true);
+        }
+
+        /// <summary>
+        /// Updates the story based on if player escaped or won/lost 
+        /// </summary>
+        /// <param name="escaped"></param>
+        private void UpdatePopUpText(bool escaped)
+        {
+            //If player escaped 
+            if (escaped)
             {
-                _data.UpdateGoal(1);
+                _uC.defeated.text = "You have escaped from " + _eC.enemyUnit.unitName + " in a cloud of smoke.";
+                _uC.gold.text = "You get to live another day.";
             }
+            //If player won/lost 
+            else
+            {
+                _uC.defeated.text = "You have defeated " + _pC.playerUnit.unitName + " may they rest in peace.";
+                _uC.gold.text = "You gather " +  _data.GetMoney() + " gold pieces.";
+            }
+        }
+
+        /// <summary>
+        /// Updates the story bit if based on if the player won or lost 
+        /// </summary>
+        private void AddToStory()
+        {
             if (_data.GetIsGoalCompleted())
             {
                 _data.AddToStory(_pC.playerUnit.unitName + " completed their life goal of: " + _data.GetGoalText());
                 _data.SetPlayerDone(true);
             }
-            _uC.gold.text = "You get to live another day.";
-            yield return new WaitForSeconds(TimeTillEnemyTurn);
-            _currentState = BattleStates.End;
-            _uC.victoryTab.SetActive(true);
+            else
+            {
+                _data.AddToStory(_pC.playerUnit.unitName + " failed their life goal of: " + _data.GetGoalText());
+            }
+        }
+        
+        /// <summary>
+        /// Checks which life goal the player completed and updates the counter 
+        /// </summary>
+        private void CheckGoalUpdate()
+        {
+            //Updates the kills goals, and the escpae goal 
+            if (_data.GetLifeGoal() == 1 || _data.GetLifeGoal() == 1 || _data.GetLifeGoal() == 4)
+            {
+                _data.UpdateGoal(1);
+            }
+            //Updates the money goal 
+            else if (_data.GetLifeGoal() == 3)
+            {
+                _data.UpdateGoal(_eC.enemyUnit.moneyDrop);
+            }
         }
     }
 }
