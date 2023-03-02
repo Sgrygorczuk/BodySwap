@@ -52,15 +52,18 @@ namespace BattleScripts
         private int _baseIndex;       //Which base option is the player looking at 
         private int _attackIndex;     //Which attack is the player looking at
         private int _itemIndex;
+        private int _attack;
 
         [SerializeField] private GameObject damageNumber;
-        private int _barSlider = 0;
 
         //======== SFX 
         private AudioSource _moveAudioSource;
         private AudioSource _selectAudioSource;
         private AudioSource _denyAudioSource;
         private AudioSource _attackAudioSource;
+        private AudioSource _winAudioSource;
+        private AudioSource _lostAudioSource;
+        private AudioSource _escapeAudioSource;
 
         //======== Timers 
         private const float TimeBarLowering = 0.035f;
@@ -122,6 +125,10 @@ namespace BattleScripts
             _selectAudioSource = GameObject.Find("SFX").transform.Find("SelectSFX").GetComponent<AudioSource>();
             _denyAudioSource = GameObject.Find("SFX").transform.Find("DenySFX").GetComponent<AudioSource>();
             _attackAudioSource = GameObject.Find("SFX").transform.Find("AttackSFX").GetComponent<AudioSource>();
+            
+            _winAudioSource = GameObject.Find("SFX").transform.Find("WinSFX").GetComponent<AudioSource>();
+            _lostAudioSource = GameObject.Find("SFX").transform.Find("LostSFX").GetComponent<AudioSource>();
+            _escapeAudioSource = GameObject.Find("SFX").transform.Find("EscapeSFX").GetComponent<AudioSource>();
         }
 
         //==================================================================================================================
@@ -173,7 +180,15 @@ namespace BattleScripts
         {
             _animator.Play("BattleSceneEnd");
             yield return new WaitForSeconds(2.1f);
-            SceneManager.LoadScene("StartScene");
+            if (!_data.isIntroDone)
+            {
+                _data.isIntroDone = true;
+                SceneManager.LoadScene("CutSceneDeath");
+            }
+            else
+            {
+                SceneManager.LoadScene("StartScene");   
+            }
         }
     
     
@@ -310,6 +325,7 @@ namespace BattleScripts
                 if (_attackIndex < _pC.maxPlayerAttackIndex &&
                     _pC.playerUnit.currentMana >= _pC.playerUnit.attacks[_attackIndex].manaCost)
                 {
+                    _attack = _attackIndex;
                     MoveTabs(MenuState.Base, _uC.attackTab, false);
                     _selectAudioSource.Play();
                     StartCoroutine(PlayerAttack());
@@ -401,7 +417,7 @@ namespace BattleScripts
             _battleAnimator.Play("EnemyHurt");
             
             //Rolls the damage and takes away player mana
-            RollDamage(_pC.playerUnit.attacks, _attackIndex, _eC.enemyDamageNumberSpawnPoint, true);
+            RollDamage(_pC.playerUnit.attacks, _attack, _eC.enemyDamageNumberSpawnPoint, true);
             LowerPlayerMagic();
             
             //Takes away player controls over menu
@@ -519,9 +535,9 @@ namespace BattleScripts
         private void LowerPlayerMagic()
         {
             //Get the goal
-            var goal = _pC.playerUnit.currentMana - _pC.playerUnit.attacks[_attackIndex].manaCost;
+            var goal = _pC.playerUnit.currentMana - _pC.playerUnit.attacks[_attack].manaCost;
             //Update the Visuals 
-            StartCoroutine(UpdateBar(_pC.playerUnit.currentMana, goal, _pC.playerUnit.currentMana,
+            StartCoroutine(UpdateBar( goal, _pC.playerUnit.currentMana, _pC.playerUnit.currentMana,
                 _pC.playerUnit.maxMana, -1, _pC.playerManaImage));
             _pC.playerManaText.text = goal + "/" + _pC.playerUnit.maxMana;
             //Update the Data 
@@ -599,6 +615,7 @@ namespace BattleScripts
         private IEnumerator WinAction()
         {
             //Start Enemy Death Animation  
+            _winAudioSource.Play();
             _battleAnimator.Play("EnemyFade");
             yield return new WaitForSeconds(TimeTillEnemyTurn * 2);
             //Set up Pop Up and update player Data 
@@ -615,6 +632,7 @@ namespace BattleScripts
         /// <returns></returns>
         private IEnumerator LoseAction()
         {
+            _lostAudioSource.Play();
             _battleAnimator.Play("Swap");
             yield return new WaitForSeconds(0.25f);
             SetUpVictoryScreen(false);
@@ -651,7 +669,7 @@ namespace BattleScripts
         }
 
         /// <summary>
-        /// Sets up the pop up screen when thep layer won 
+        /// Sets up the pop up screen when the layer won 
         /// </summary>
         /// <param name="playerWon"></param>
         private void SetUpVictoryScreen(bool playerWon)
@@ -673,6 +691,7 @@ namespace BattleScripts
         /// <returns></returns>
         private IEnumerator SetUpEscapeScreen()
         {
+            _escapeAudioSource.Play();
             _data.AddToStory(_pC.playerUnit.unitName + " escaped from " + _eC.enemyUnit.unitName + ".");
             CheckGoalUpdate();
             UpdatePopUpText(true);
@@ -723,7 +742,7 @@ namespace BattleScripts
         /// </summary>
         private void CheckGoalUpdate()
         {
-            //Updates the kills goals, and the escpae goal 
+            //Updates the kills goals, and the escape goal 
             if (_data.GetLifeGoal() == 1 || _data.GetLifeGoal() == 1 || _data.GetLifeGoal() == 4)
             {
                 _data.UpdateGoal(1);

@@ -38,7 +38,7 @@ namespace Base
         private bool _checkIfPlayerIsDone;
         //Checks if the intro cutscene was played 
         public bool isIntroDone;
-        
+
         //============ Goals 
         //The text that will display when a character chooses a goal 
         private readonly string[] _goalText = {
