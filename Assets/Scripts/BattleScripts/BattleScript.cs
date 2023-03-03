@@ -161,6 +161,10 @@ namespace BattleScripts
                 {
                     if (Input.GetKeyDown(KeyCode.Space))
                     {
+                        if (_data.GetIsGoalCompleted())
+                        {
+                            _data.AddToStory(_pC.playerUnit.unitName + " has achieved their life goal!");
+                        }
                         StartCoroutine(LoadToLevel());
                     }
                     break;
@@ -675,11 +679,14 @@ namespace BattleScripts
         private void SetUpVictoryScreen(bool playerWon)
         {
             UpdatePopUpText(false);
-            AddToStory();
             if (playerWon)
             {
+                _data.AddToStory(_pC.playerUnit.unitName + " defeated " + _eC.enemyUnit.unitName + " glory be to you.");
                 CheckGoalUpdate();
-                _data.AddToStory(_pC.playerUnit.unitName + " have defeated " + _eC.enemyUnit.unitName + " may they rest in peace.");
+            }
+            else
+            {
+                _data.AddToStory(_pC.playerUnit.unitName + " was slain by " + _eC.enemyUnit.unitName + " may they rest in peace.");
             }
             _uC.victoryTab.SetActive(true);
             if (playerWon) { _data.AddMoney(_eC.enemyUnit.moneyDrop); }
@@ -695,7 +702,6 @@ namespace BattleScripts
             _data.AddToStory(_pC.playerUnit.unitName + " escaped from " + _eC.enemyUnit.unitName + ".");
             CheckGoalUpdate();
             UpdatePopUpText(true);
-            AddToStory();
             yield return new WaitForSeconds(TimeTillEnemyTurn);
             _currentState = BattleStates.End;
             _uC.victoryTab.SetActive(true);
@@ -721,22 +727,6 @@ namespace BattleScripts
             }
         }
 
-        /// <summary>
-        /// Updates the story bit if based on if the player won or lost 
-        /// </summary>
-        private void AddToStory()
-        {
-            if (_data.GetIsGoalCompleted())
-            {
-                _data.AddToStory(_pC.playerUnit.unitName + " completed their life goal of: " + _data.GetGoalText());
-                _data.SetPlayerDone(true);
-            }
-            else
-            {
-                _data.AddToStory(_pC.playerUnit.unitName + " failed their life goal of: " + _data.GetGoalText());
-            }
-        }
-        
         /// <summary>
         /// Checks which life goal the player completed and updates the counter 
         /// </summary>

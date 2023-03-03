@@ -105,7 +105,7 @@ public class PlayerInteract : MonoBehaviour
         {
             _currentTalkState = TalkState.PopUp;
             _popUp.SetActive(true);
-            _popTextTitle.text = "Welcome to Footnotes";
+            _popTextTitle.text = "Arrival";
             _popTextBody.text = "You have just arrived in a land unknown, a new story ready to unfold. " +
                                 "Will you become a footnote or will you write the story? \n \n [Use WASD to move and" +
                                 " Space to interact]";
@@ -197,8 +197,8 @@ public class PlayerInteract : MonoBehaviour
         if (!_data.GetIsGoalCompleted()) return;
         _playerMovement.canMove = false;
         _popUp.SetActive(true);
-        _popTextTitle.text = "You've achieved your life goal!";
-        _popTextBody.text = "";
+        _popTextTitle.text = "Thank you for playing!";
+        _popTextBody.text = "You've completed " + _data.player.unitName +  "’s life goal. Their story is just one of many untold, consider how they came to tell it.";
         _currentTalkState = TalkState.Won;
     }
 

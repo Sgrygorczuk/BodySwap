@@ -34,7 +34,7 @@ namespace Base
 
         //=========== Progress 
         //This holds all the actions performed by the player to be displayed at the end of the story
-        private List<string> _story = new() { "Your journey began:" };
+        public List<string> _story = new() { "Your journey began:" };
         //Checks if the player won the game 
         private bool _checkIfPlayerIsDone;
         //Checks if the intro cutscene was played 
@@ -98,6 +98,7 @@ namespace Base
             _story.Clear();
             _story.Add( "Your journey began:" );
             _checkIfPlayerIsDone = false;
+            currentGoalScore = 0;
         }
         
         //==================================================================================================================
@@ -198,7 +199,7 @@ namespace Base
 
         public void AddToStory(string bit)
         {
-            _story.Add("\n" + bit);
+            _story.Add(bit);
         }
 
         public List<string> GetStory()
