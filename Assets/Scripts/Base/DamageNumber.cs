@@ -25,7 +25,6 @@ namespace Base
         private void SetColor()
         {
             int.TryParse(_text.text, out var number);
-            print(number);
             _text.color = number switch
             {
                 < 5 => Color.white,

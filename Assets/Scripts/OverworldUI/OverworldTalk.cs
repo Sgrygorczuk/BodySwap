@@ -2,25 +2,41 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class OverworldTalk : MonoBehaviour
+namespace OverWorldUI
 {
-    [HideInInspector] private Image iconImage;
-    [HideInInspector] public TextMeshProUGUI nameText;
-    [HideInInspector] private TextMeshProUGUI talkText;
+    /// <summary>
+    /// This Script is used in the over world levels to set up the talk segments allows NPC to tell things to the
+    /// player 
+    /// </summary>
     
-    // Start is called before the first frame update
-    void Start()
+    public class OverWorldTalk : MonoBehaviour
     {
-        iconImage = GameObject.Find("Talk_Canvas").transform.Find("Talker_Icon_Mask").transform.Find("Icon_Image").GetComponent<Image>();
-        nameText = GameObject.Find("Talk_Canvas").transform.Find("Name_Text").GetComponent<TextMeshProUGUI>();
-        talkText = GameObject.Find("Talk_Canvas").transform.Find("Talk_Text").GetComponent<TextMeshProUGUI>();
-    }
+        private Image _iconImage;
+        [HideInInspector] public TextMeshProUGUI nameText;
+        private TextMeshProUGUI _talkText;
+    
+        /// <summary>
+        /// Connects the UI game objects 
+        /// </summary>
+        private void Start()
+        {
+            _iconImage = GameObject.Find("Talk_Canvas").transform.Find("Talker_Icon_Mask").transform.Find("Icon_Image").GetComponent<Image>();
+            nameText = GameObject.Find("Talk_Canvas").transform.Find("Name_Text").GetComponent<TextMeshProUGUI>();
+            _talkText = GameObject.Find("Talk_Canvas").transform.Find("Talk_Text").GetComponent<TextMeshProUGUI>();
+        }
 
-    public void UpdateUI(Sprite sprite, string unitName, string talk)
-    {
-        iconImage.sprite = sprite;
-        nameText.text = unitName;
-        talkText.text = talk;
-    }
+        /// <summary>
+        /// Updates the data to display what the NPC says 
+        /// </summary>
+        /// <param name="sprite"></param>
+        /// <param name="unitName"></param>
+        /// <param name="talk"></param>
+        public void UpdateUI(Sprite sprite, string unitName, string talk)
+        {
+            _iconImage.sprite = sprite;
+            nameText.text = unitName;
+            _talkText.text = talk;
+        }
 
+    }
 }

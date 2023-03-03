@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using UnityEngine;
 
 //Player movement controls the players ability to move around the screen 
@@ -60,6 +59,10 @@ public class PlayerMovement : MonoBehaviour
         UpdateAnimation();
     }
 
+    /// <summary>
+    /// Stops the player movement and either allows them or stops them from further actions 
+    /// </summary>
+    /// <param name="state"></param>
     public void UpdateMovementState(bool state)
     {
         _xVelocity = 0;

@@ -9,9 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 1a8d488b5ae0b6546b2815379967cb96
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 1
     path: Assets/Scenes/BattleScene.unity
     guid: 675018a7a3e8427bbaa86c04e9bf1b70
   - enabled: 1
@@ -23,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/CutSceneDeath.unity
     guid: 4cbc785fda5d8754f9b912e7ba2fdc99
+  - enabled: 1
+    path: Assets/Scenes/CutSceneEnd.unity
+    guid: ec7dbc64e77ca4f4784188adf5e270d3
   m_configObjects: {}

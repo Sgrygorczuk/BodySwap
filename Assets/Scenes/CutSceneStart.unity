@@ -421,6 +421,7 @@ GameObject:
   - component: {fileID: 1393513075}
   - component: {fileID: 1393513077}
   - component: {fileID: 1393513076}
+  - component: {fileID: 1393513078}
   m_Layer: 5
   m_Name: Prompt
   m_TagString: Untagged
@@ -545,6 +546,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1393513074}
   m_CullTransparentMesh: 1
+--- !u!95 &1393513078
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1393513074}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 745fd80b9ce93ae40a1d0ddb87ec8f8b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1441655654
 GameObject:
   m_ObjectHideFlags: 0
@@ -1058,7 +1079,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_TargetDisplay: 0
 --- !u!224 &1911467693
 RectTransform:

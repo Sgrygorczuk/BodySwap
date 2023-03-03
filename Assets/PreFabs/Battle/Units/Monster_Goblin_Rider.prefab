@@ -56,4 +56,4 @@ MonoBehaviour:
   - {fileID: 2917309440250751867, guid: a163d389787e1e44f93d3ba34949a6c9, type: 3}
   isHuman: 0
   enemyId: 8
-  lifeGoal: 1
+  lifeGoal: 2

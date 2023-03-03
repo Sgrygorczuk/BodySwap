@@ -52,9 +52,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unit: {fileID: 1008978178988166899, guid: 840519b1654d99c488756887fe5c84bc, type: 3}
   sprites:
-  - {fileID: -1599200632, guid: 0949c81c68b8f22759700a1675ae00d0, type: 3}
-  - {fileID: 1473084277, guid: 0949c81c68b8f22759700a1675ae00d0, type: 3}
+  - {fileID: -380606059, guid: 0949c81c68b8f22759700a1675ae00d0, type: 3}
+  - {fileID: 21300000, guid: 9558ef75f11da904ebcc53906b7c5435, type: 3}
   isPlayer: 1
+  _boxCollider2Ds: []
+  talkingText: 
+  chatIcons: []
+  isShopkeeper: 0
 --- !u!114 &3423424181113126570
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67,6 +71,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c0b66eda6252ea4d87e2a1cc40ade0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemArrows:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &8136087921773831128
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80,6 +89,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 4
+  canMove: 1
 --- !u!50 &8136087921773831129
 Rigidbody2D:
   serializedVersion: 4

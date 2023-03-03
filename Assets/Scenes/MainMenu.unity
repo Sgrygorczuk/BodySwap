@@ -440,9 +440,10 @@ MonoBehaviour:
   enemyParentPath: 
   enemyPath: 
   isIntroDone: 0
-  goal: 01000000050000000500000041000000
+  isIntroPopUpDone: 0
+  goal: 0100000005000000050000004100000006000000
   currentGoalScore: 0
-  goalsCompleted: 00000000
+  goalsCompleted: 0000000000
 --- !u!4 &638499533
 Transform:
   m_ObjectHideFlags: 0

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Base
@@ -33,11 +34,13 @@ namespace Base
 
         //=========== Progress 
         //This holds all the actions performed by the player to be displayed at the end of the story
-        private string _story = "Your journey began:";
+        private List<string> _story = new() { "Your journey began:" };
         //Checks if the player won the game 
         private bool _checkIfPlayerIsDone;
         //Checks if the intro cutscene was played 
         public bool isIntroDone;
+        //Checks if the game displayed the intro pop up 
+        public bool isIntroPopUpDone;
 
         //============ Goals 
         //The text that will display when a character chooses a goal 
@@ -46,7 +49,7 @@ namespace Base
             "Become a Hero by slaying monsters: ", //5
             "Defend against the human invaders by defeating them: ", //5
             "Become rich beyond your wildest dreams by collecting te piece: ", //65
-            "Be known as master escape arist by using smoke bombs: ", //4
+            "Be known as master escape arist by using smoke bombs: ", //6
         };
         //The the number of acts the player needs to perform till the goal is reached 
         [SerializeField] private int[] goal =  {1, 5, 5, 65, 6};
@@ -92,7 +95,8 @@ namespace Base
             enemyParentPath = "";
             enemyPath = "";
             isIntroDone = false;
-            _story = "Your journey began:";
+            _story.Clear();
+            _story.Add( "Your journey began:" );
             _checkIfPlayerIsDone = false;
         }
         
@@ -194,10 +198,10 @@ namespace Base
 
         public void AddToStory(string bit)
         {
-            _story += "\n" + bit;
+            _story.Add("\n" + bit);
         }
 
-        public string GetStory()
+        public List<string> GetStory()
         {
             return _story;
         }
