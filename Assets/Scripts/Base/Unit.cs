@@ -15,10 +15,10 @@ namespace Base
         
         //==== Combat Stats 
         //Max Health and Mana
-        [Range(10,45)] public int maxHealth = 15;
+        [Range(5,45)] public int maxHealth = 15;
         [Range(10,45)] public int maxMana = 15;
         //Current Health and Mana
-        [Range(10,45)] public int currentHealth = 15;
+        [Range(5,45)] public int currentHealth = 15;
         [Range(10,45)] public int currentMana = 15;
         //How much money they drop on death 
         [Range(5,40)]public int moneyDrop = 10;

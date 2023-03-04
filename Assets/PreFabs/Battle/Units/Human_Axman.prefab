@@ -46,14 +46,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitName: 
   sprite: {fileID: -1783572663, guid: 9420ec72492348745846a39143f2a7ba, type: 3}
-  maxHealth: 30
-  maxMana: 20
-  currentHealth: 30
-  currentMana: 20
-  moneyDrop: 10
+  maxHealth: 15
+  maxMana: 15
+  currentHealth: 15
+  currentMana: 15
+  moneyDrop: 15
   attacks:
   - {fileID: 323581525886419684, guid: 75d3fef418a75ce4f8b2910d3de99267, type: 3}
   - {fileID: 9111510990389033204, guid: 03ace5d3e09a72e4992276f15abae91a, type: 3}
   isHuman: 1
   enemyId: 0
-  lifeGoal: 1
+  lifeGoal: 4

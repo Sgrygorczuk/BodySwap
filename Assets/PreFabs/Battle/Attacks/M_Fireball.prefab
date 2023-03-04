@@ -45,6 +45,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackName: Fireball
-  damage: 8
-  manaCost: 3
-  isMagic: 1
+  damage: 9
+  manaCost: 5

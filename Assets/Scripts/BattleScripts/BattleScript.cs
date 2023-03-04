@@ -110,7 +110,7 @@ namespace BattleScripts
             _pC.SetUpPlayer(_data.GetUnit());
         
             _eC = GameObject.Find("BattleScript").GetComponent<EnemyComponents>();
-            _eC.SetUpEnemy(_unitsAndAttacksScript, _data.GetId());
+            _eC.SetUpEnemy(_data.GetUnit().unitName, _unitsAndAttacksScript, _data.GetId());
 
             _uC = GameObject.Find("BattleScript").GetComponent<UIComponent>();
             _uC.SetUpUI();
@@ -640,7 +640,6 @@ namespace BattleScripts
             _battleAnimator.Play("Swap");
             yield return new WaitForSeconds(0.25f);
             SetUpVictoryScreen(false);
-            UpdatePlayerData();
             yield return new WaitForSeconds(TimeTillEnemyTurn);
             _battleAnimator.Play("EnemyFade");
             yield return new WaitForSeconds(TimeTillEnemyTurn);
@@ -656,7 +655,8 @@ namespace BattleScripts
             _eC.enemyImage.sprite = _pC.playerUnit.sprite;
             _pC.playerIcon.sprite = _eC.enemyUnit.sprite;
             
-            //Flips the data 
+            //Flips the data
+            _eC.UpdateNamePlate(_pC.playerUnit.unitName);
             _pC.playerNameText.text = _eC.enemyUnit.unitName;
             _pC.playerHealthImage.fillAmount = (float) _eC.enemyCurrentHealth / _eC.enemyUnit.maxHealth;
             _eC.enemyHealthImage.fillAmount = (float) _pC.playerUnit.currentHealth / _pC.playerUnit.maxHealth;
@@ -665,7 +665,7 @@ namespace BattleScripts
             _pC.playerManaText.text = _eC.enemyUnit.currentMana+ "/" + _eC.enemyUnit.currentMana;
             
             _eC.enemyUnit.currentHealth = _eC.enemyCurrentHealth;
-            
+
             //Updates the player data, resets goal, give player enemy's stats and reset item counts. 
             _data.ResetGoalState();
             _data.SetUnit(_eC.enemyUnit);
@@ -678,15 +678,16 @@ namespace BattleScripts
         /// <param name="playerWon"></param>
         private void SetUpVictoryScreen(bool playerWon)
         {
-            UpdatePopUpText(false);
+            UpdatePopUpText(false, playerWon);
             if (playerWon)
             {
                 _data.AddToStory(_pC.playerUnit.unitName + " defeated " + _eC.enemyUnit.unitName + " glory be to you.");
-                CheckGoalUpdate();
+                CheckGoalUpdate(false);
             }
             else
             {
                 _data.AddToStory(_pC.playerUnit.unitName + " was slain by " + _eC.enemyUnit.unitName + " may they rest in peace.");
+                UpdatePlayerData();
             }
             _uC.victoryTab.SetActive(true);
             if (playerWon) { _data.AddMoney(_eC.enemyUnit.moneyDrop); }
@@ -700,8 +701,8 @@ namespace BattleScripts
         {
             _escapeAudioSource.Play();
             _data.AddToStory(_pC.playerUnit.unitName + " escaped from " + _eC.enemyUnit.unitName + ".");
-            CheckGoalUpdate();
-            UpdatePopUpText(true);
+            CheckGoalUpdate(true);
+            UpdatePopUpText(true, false);
             yield return new WaitForSeconds(TimeTillEnemyTurn);
             _currentState = BattleStates.End;
             _uC.victoryTab.SetActive(true);
@@ -711,7 +712,8 @@ namespace BattleScripts
         /// Updates the story based on if player escaped or won/lost 
         /// </summary>
         /// <param name="escaped"></param>
-        private void UpdatePopUpText(bool escaped)
+        /// <param name="won"></param>
+        private void UpdatePopUpText(bool escaped, bool won)
         {
             //If player escaped 
             if (escaped)
@@ -722,18 +724,24 @@ namespace BattleScripts
             //If player won/lost 
             else
             {
-                _uC.defeated.text = "You have defeated " + _pC.playerUnit.unitName + " may they rest in peace.";
-                _uC.gold.text = "You gather " +  _data.GetMoney() + " gold pieces.";
+                var cash = won ? _eC.enemyUnit.moneyDrop : _data.GetMoney();
+                var unitName = won ? _eC.enemyUnit.unitName : _pC.playerUnit.unitName;
+                _uC.defeated.text = "You have defeated " + unitName + " may they rest in peace.";
+                _uC.gold.text = "You gather " +  cash + " gold pieces.";
             }
         }
 
         /// <summary>
         /// Checks which life goal the player completed and updates the counter 
         /// </summary>
-        private void CheckGoalUpdate()
+        private void CheckGoalUpdate(bool escaped)
         {
             //Updates the kills goals, and the escape goal 
-            if (_data.GetLifeGoal() == 1 || _data.GetLifeGoal() == 1 || _data.GetLifeGoal() == 4)
+            if (_data.GetLifeGoal() == 1 || _data.GetLifeGoal() == 1)
+            {
+                _data.UpdateGoal(1);
+            }
+            else if (_data.GetLifeGoal() == 4 && escaped)
             {
                 _data.UpdateGoal(1);
             }

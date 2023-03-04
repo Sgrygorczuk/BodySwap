@@ -22,8 +22,15 @@ public class UnitsAndAttacks : MonoBehaviour
     
     public Unit[] unitsStats;
 
-    public string SetRandomName()
+    public string SetRandomName(string playerName)
     {
-        return _names[Random.Range(0, _names.Length)];
+        while (true)
+        {
+            var setRandomName = _names[Random.Range(0, _names.Length)];
+            if (playerName != setRandomName)
+            {
+                return setRandomName;
+            }
+        }
     }
 }

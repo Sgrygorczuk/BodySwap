@@ -47,4 +47,3 @@ MonoBehaviour:
   attackName: Whirlwind
   damage: 7
   manaCost: 4
-  isMagic: 0

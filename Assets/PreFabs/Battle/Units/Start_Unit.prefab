@@ -46,9 +46,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitName: Magellen
   sprite: {fileID: 1871723826, guid: f03a5ab2a7f7832438311646b96e24c6, type: 3}
-  maxHealth: 10
+  maxHealth: 5
   maxMana: 15
-  currentHealth: 10
+  currentHealth: 5
   currentMana: 15
   moneyDrop: 20
   attacks:
